@@ -55,9 +55,10 @@ $( "#resizable" ).resizable({ handles: "n, e, s, w" });
 });*/
 </script>
 	<script type="text/javascript" src="script/slide.js"></script>
-	<!--<script type="text/javascript" src="script/dragresize.js"></script>
-	<script type="text/javascript" src="jscolor/jscolor.js"></script>	
+	<script type="text/javascript" src="script/dragresize.js"></script>
 	<script type="text/javascript" src="script/resize.js"></script>
+	<s
+	<!--cript type="text/javascript" src="jscolor/jscolor.js"></script>	
 	<script type="text/javascript" src="script/hide.js"></script>-->
 	
 </head>

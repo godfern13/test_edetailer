@@ -63,7 +63,7 @@ $(document).ready(function(){
 					/*----------------------------------------- Function To Get Coordinates ----------------------------------*/
 					var cordData = calCordinates(parentX,parentY,counter,childType);
 				}
-			}).resizable({ handles: "n, e, s, w" });
+			});//.resizable({ handles: "n, e, s, w" });
 			//$(objName).resizable({ handles: "n, e, s, w" });
 			/*----------------------------------------- Function To Get Cordinates ----------------------------------*/
 				//var cordData = calCordinates(parentX,parentY,counter,childType);
@@ -89,12 +89,13 @@ $(document).ready(function(){
 				$(this).append(element);
 				$(".tempclass").attr("id","clonediv"+counter);
 				$("#clonediv"+counter).removeClass("tempclass");
-				
+				$(objName).resize();
 				sessionStorage.setItem("#clonediv"+counter, "#clonediv"+counter);
 				
 				$(objName).css({'z-index':zindexval});
 				if(childType ==1){
 					$("#clonediv"+counter).addClass("text");
+					
 				}
 				else if(childType ==2){
 					$("#clonediv"+counter).addClass("image");
@@ -706,7 +707,7 @@ function getChildSpecifications(counter){
 	var corData	=	("(x1,y1) => "+insideX1+","+insideY1 +" || (x2,y1)==>" +insideX2+","+insideY1 +" || (x1,y2)==>" +insideX1+","+insideY2 +" || (x2,y2)==>" +insideX2+","+insideY2);
 	
 	if(childType == 1){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff' onclick='changeFntWght("+counter+")'><b>B</b></td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff' onclick='changeTxtDecor("+counter+")' ><u>U</u></td><td width='2px'></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+")' >U</td><td width='2px'></td></tr></table>");
 		
 		//Displays the values changed for an element
 		showTextDetails(counter);
@@ -728,11 +729,18 @@ function getChildSpecifications(counter){
 	var textContent = changeText(counter);
 	var textColor 	= chngTextColor(counter);
 	var textSize 	= chngTextSize(counter);
-	
+	var flag = 0;
+	var weightVal 	= changeFntWght(counter,flag);
+	var italicVal 	= changeFntStyle(counter,flag);
+	var decorVal 	= changeTxtDecor(counter,flag);
+		
 	// Saving textbox data for a particular child
 	sessionStorage.setItem("#chldTxt"+counter, textContent);
 	sessionStorage.setItem("#chldTxtClr"+counter, textColor);
 	sessionStorage.setItem("#chldTxtSize"+counter, textSize);
+	sessionStorage.setItem("#chldFontWeight"+counter, weightVal);
+	sessionStorage.setItem("#chldFontStyle"+counter, italicVal);
+	sessionStorage.setItem("#chldTxtDecor"+counter, decorVal);
 	sessionStorage.setItem("width"+counter, width);
 	sessionStorage.setItem("height"+counter, height);
 	sessionStorage.setItem("xcoord"+counter, insideX1);
@@ -771,13 +779,28 @@ function chngTextSize(cnt){
 	return textSize;
 }
 
-function changeFntWght(cnt){
+function changeFntWght(cnt,flag){
 	
-	$("#clonediv"+cnt).css('font-weight','bold');
+	
 	var weightVal = $("#clonediv"+cnt).css('font-weight');
-	
+	var clickStatus = $("#fontWeight"+cnt).attr('class');
+	//alert(clickStatus);
+	if(flag == 1){
+		if(clickStatus == 'unclicked'){
+			$("#clonediv"+cnt).css('font-weight','normal');
+			$("#fontWeight"+cnt).removeClass('unclicked');
+			$("#fontWeight"+cnt).addClass('clicked');
+		}
+		if(clickStatus == 'clicked'){
+			$("#clonediv"+cnt).css('font-weight','bold');
+			$("#fontWeight"+cnt).addClass('unclicked');
+			$("#fontWeight"+cnt).removeClass ('clicked');
+		}
+	}
 	// Saving textbox text size for a particular child
-	//sessionStorage.setItem("#chldTxtSize"+cnt, textSize);
+	sessionStorage.setItem("#chldFontWeight"+cnt, weightVal);
+	
+	return weightVal;
 	
 }
 
@@ -786,7 +809,9 @@ function changeFntStyle(cnt){
 	$("#clonediv"+cnt).css('font-style','italic');
 	var italicVal = $("#clonediv"+cnt).css('font-style');
 	// Saving textbox text size for a particular child
-	//sessionStorage.setItem("#chldTxtSize"+cnt, textSize);
+	sessionStorage.setItem("#chldFontStyle"+cnt, italicVal);
+	
+	return italicVal;
 }
 
 function changeTxtDecor(cnt){
@@ -794,7 +819,9 @@ function changeTxtDecor(cnt){
 	$("#clonediv"+cnt).css('text-decoration','underline');
 	var decorVal = $("#clonediv"+cnt).css('text-decoration');
 	// Saving textbox text size for a particular child
-	//sessionStorage.setItem("#chldTxtSize"+cnt, textSize);
+	sessionStorage.setItem("#chldTxtDecor"+cnt, decorVal);
+	
+	return decorVal;
 }
  
 
@@ -803,7 +830,12 @@ function showTextDetails(cnt){
 	var textContent = $("#clonediv"+cnt).text();
 	var textColor = $("#clonediv"+cnt).css('color');
 	var textSize = $("#clonediv"+cnt).css('font-size');
+	var weightVal = $("#clonediv"+cnt).css('font-size');
+	var italicVal = $("#clonediv"+cnt).css('font-size');
+	var decorVal = $("#clonediv"+cnt).css('font-size');
+	
 	size = textSize.slice(0,-2);
+	//alert(size);
 	
 	if(textContent !=''){
 		$("#chldTxt"+cnt).text(textContent);
@@ -814,6 +846,15 @@ function showTextDetails(cnt){
 	if(textSize !=''){
 		$("#chldTxtSize"+cnt).val(size);
 	}
+	if(weightVal !=''){
+		$("#fontWeight"+cnt).val(weightVal);
+	}
+	/*if(italicVal !=''){
+		$("#chldTxtSize"+cnt).val(italicVal);
+	}
+	if(decorVal !=''){
+		$("#chldTxtSize"+cnt).val(decorVal);
+	}*/
 }
 
 
@@ -855,10 +896,11 @@ function slideSaveCall()
 		var childText 	= sessionStorage.getItem("#chldTxt"+(i+1));
 		var txtColor	= sessionStorage.getItem("#chldTxtClr"+(i+1));
 		var txtSize 	= sessionStorage.getItem("#chldTxtSize"+(i+1));
-		//var childText 	= sessionStorage.getItem("chldTxt"+(i+1));
-		//var childText 	= sessionStorage.getItem("chldTxt"+(i+1));
+		var fontWeight 	= sessionStorage.getItem("#chldFontWeight"+(i+1));
+		var fontStyle 	= sessionStorage.getItem("#chldFontStyle"+(i+1));
+		var txtDecor 	= sessionStorage.getItem("#chldTxtDecor"+(i+1));
 		
-		var wrappedChildArr	= {'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'txt':childText,'txtColor':txtColor,'txtSize':txtSize};
+		var wrappedChildArr	= {'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'txt':childText,'txtColor':txtColor,'txtSize':txtSize,'fontWeight':fontWeight,'fontStyle':fontStyle,'txtDecor':txtDecor};
 		
 		mainArr.push(wrappedChildArr);
 	}
