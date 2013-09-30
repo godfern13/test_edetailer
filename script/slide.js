@@ -706,16 +706,9 @@ function getChildSpecifications(counter){
 	var corData	=	("(x1,y1) => "+insideX1+","+insideY1 +" || (x2,y1)==>" +insideX2+","+insideY1 +" || (x1,y2)==>" +insideX1+","+insideY2 +" || (x2,y2)==>" +insideX2+","+insideY2);
 	
 	if(childType == 1){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option selected='selected'>red</option><option>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option selected='selected'>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff' onclick='changeFntWght("+counter+")'><b>B</b></td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff' onclick='changeTxtDecor("+counter+")' ><u>U</u></td><td width='2px'></td></tr></table>");
-		var textContent = changeText(counter);
-		//alert(textContent);
-		var textColor 	= chngTextColor(counter);
-		var textSize 	= chngTextSize(counter);
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff' onclick='changeFntWght("+counter+")'><b>B</b></td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff' onclick='changeTxtDecor("+counter+")' ><u>U</u></td><td width='2px'></td></tr></table>");
 		
-		sessionStorage.setItem("#chldTxt"+counter, textContent);
-		sessionStorage.setItem("#chldTxtClr"+counter, textColor);
-		sessionStorage.setItem("#chldTxtSize"+counter, textSize);
-		
+		//Displays the values changed for an element
 		showTextDetails(counter);
 	}
 	
@@ -732,19 +725,18 @@ function getChildSpecifications(counter){
 	}
 	
 	//Getting Child Details on child dropped
-	//var textContent = changeText(counter);
-	/*var textColor 	= chngTextColor(counter);
-	var textSize 	= chngTextSize(counter);*/
-		
-	// Saving textbox data for a particular child
+	var textContent = changeText(counter);
+	var textColor 	= chngTextColor(counter);
+	var textSize 	= chngTextSize(counter);
 	
+	// Saving textbox data for a particular child
+	sessionStorage.setItem("#chldTxt"+counter, textContent);
+	sessionStorage.setItem("#chldTxtClr"+counter, textColor);
+	sessionStorage.setItem("#chldTxtSize"+counter, textSize);
 	sessionStorage.setItem("width"+counter, width);
 	sessionStorage.setItem("height"+counter, height);
 	sessionStorage.setItem("xcoord"+counter, insideX1);
 	sessionStorage.setItem("ycoord"+counter, insideY1);
-	/*sessionStorage.setItem("#chldTxt"+counter, textContent);
-	sessionStorage.setItem("#chldTxtClr"+counter, textColor);
-	sessionStorage.setItem("#chldTxtSize"+counter, textSize);*/
 }
 
 function changeText(cnt){
@@ -763,7 +755,6 @@ function chngTextColor(cnt){
 	
 	var textColor = $("#chldTxtClr"+cnt).val();
 	$("#clonediv"+cnt).css('color',textColor);
-	
 	// Saving textbox text color for a particular child
 	sessionStorage.setItem("#chldTxtClr"+cnt, textColor);
 	
@@ -773,7 +764,6 @@ function chngTextColor(cnt){
 function chngTextSize(cnt){
 	
 	var textSize = $("#chldTxtSize"+cnt).val();
-	//var textSize = $('#chldTxtSize'+cnt+'option:selected').text();
 	$("#clonediv"+cnt).css('font-size',textSize+'px');
 	// Saving textbox text size for a particular child
 	sessionStorage.setItem("#chldTxtSize"+cnt, textSize);
@@ -785,6 +775,7 @@ function changeFntWght(cnt){
 	
 	$("#clonediv"+cnt).css('font-weight','bold');
 	var weightVal = $("#clonediv"+cnt).css('font-weight');
+	
 	// Saving textbox text size for a particular child
 	//sessionStorage.setItem("#chldTxtSize"+cnt, textSize);
 	
