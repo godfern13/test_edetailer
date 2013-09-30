@@ -91,6 +91,7 @@ $(document).ready(function(){
 				$("#clonediv"+counter).removeClass("tempclass");
 				$(objName).resize();
 				sessionStorage.setItem("#clonediv"+counter, "#clonediv"+counter);
+				sessionStorage.setItem("childType"+counter, childType);
 				
 				$(objName).css({'z-index':zindexval});
 				if(childType ==1){
@@ -439,42 +440,45 @@ function changeFntWght(fontWght,chldCunt,childType)
 	}
 }
 /*------------------------------------------- Set Image To Child Background --------------------------------*/
-function ChldBgImgURL(upload_field,chldCunt,childType) { 
+function ChldBgImgURL(upload_field,childType,chldCunt) { 
 	if (upload_field.files && upload_field.files[0]) {
 		var reader = new FileReader();
-		reader.onload = function (e) { 
-			var img = new Image();
-			var chldWdth	=	$('#chldWdth').val();
-			var chldHght	=	$('#chldHght').val();
-			$('chldImg'+chldCunt).addClass('source-image');
-			var ImgTag		=	'<img id="chldImg'+chldCunt+'" src="'+e.target.result+'" class="source-image" />';
-			$('#clonediv'+chldCunt).html(ImgTag);
-			$("#chldImg"+chldCunt).attr({width: chldWdth});
-			$("#chldImg"+chldCunt).attr({height: chldHght});
-		};
-		reader.readAsDataURL(upload_field.files[0]);
-	}
-	/*---------------------------------------------- Upload Image To Server Script --------------------------------*/
-	var re_text = /\.jpg|\.gif|\.jpeg/i;
-	var filename = upload_field.value;
-	if (filename.search(re_text) == -1) {
-		alert("File should be either jpg or gif or jpeg");
-		var bColor		=	$('#sepcBgColor').val();
-		$("#frame").css("background",bColor);
-		return false;
-	}
-	upload_field.form.action = 'uploadChildImg.php';
-	upload_field.form.target = 'upload_iframe';
-	upload_field.form.submit();
-	upload_field.form.action = '';
-	upload_field.form.target = '';
-	document.getElementById('chldImgName'+chldCunt).value = filename;
+		var re_text = /\.jpg|\.gif|\.jpeg/i;
+		var filename = upload_field.value;
+		if (filename.search(re_text) == -1) {
+			alert("File should be either jpg or gif or jpeg");
+			$("#clonediv"+chldCunt).find('span.imgData').html("Image");
+			return false;
+		}
+		else
+		{
+			reader.onload = function (e) { 
+				var img = new Image();
+				var chldWdth	=	$('input#chldWdth').val();
+				var chldHght	=	$('input#chldHght').val();
+				$('chldImg'+chldCunt).addClass('source-image');
+				var ImgTag		=	'<img id="chldImg'+chldCunt+'" src="'+e.target.result+'" class="source-image" />';
+				$("#clonediv"+chldCunt).find('span.imgData').html(ImgTag);
+				$("#chldImg"+chldCunt).attr({width: chldWdth});
+				$("#chldImg"+chldCunt).attr({height: chldHght});
+				
+				/*---------------------------------------------- Upload Image To Server Script --------------------------------*/
 	
-	var childWdth	=	parseFloat($('input#chldWdth').val());
-	var childHeght	=	parseFloat($('input#chldHght').val());
-	var childX		=	parseFloat($('input#childX').val());
-	var childY		=	parseFloat($('input#childY').val());
-	addChildSpec(childWdth,childHeght,chldCunt,childX,childY,childType);
+				upload_field.form.action = 'uploadChildImg.php';
+				upload_field.form.target = 'upload_iframe';
+				upload_field.form.submit();
+				upload_field.form.action = '';
+				upload_field.form.target = '';
+				//document.getElementById('chldImgName'+chldCunt).value = filename;
+				sessionStorage.setItem("chldImgName"+chldCunt, filename);
+				
+				/*var childX		=	parseFloat($('input#childX').val());
+				var childY		=	parseFloat($('input#childY').val());
+				addChildSpec(chldWdth,chldHght,chldCunt,childX,childY,childType);*/
+			};
+			reader.readAsDataURL(upload_field.files[0]);
+		}
+	}
 }
 function ChldRefBgImgURL(upload_field,chldCunt,childType)
 {
@@ -513,21 +517,42 @@ function ChldRefBgImgURL(upload_field,chldCunt,childType)
 	addChildSpec(childWdth,childHeght,chldCunt,childX,childY,childType);
 }
 /*------------------------------------- Function to change Child Video ----------------------------------*/
-function changeChildVdo(chldCnt,childType)
+function changeChildVdo(upload_field,childType,chldCunt)
 {
-	var childWdth	=	parseFloat($('input#chldWdth').val());
-	var childHeght	=	parseFloat($('input#chldHght').val());
-	var childVdo	=	$('input#childVdoPath'+chldCnt).val();
-	var chldVdoFrm	=	"<video width='200' height='100' controls autoplay><source src="+childVdo+" type='video/ogg'> <source src="+childVdo+" type='video/mp4'><source src="+childVdo+" type='video/wmv'><object data="+childVdo+" width='320' height='240'><embed width='320' height='240' src='movie.swf'> </object></video>";
-	//<iframe src="'+childVdo+'" frameborder="0" id="chldVdO'+chldCnt+'"></iframe>';
-	$("#clonediv"+chldCnt).html(chldVdoFrm);
-	$("#chldVdO"+chldCnt).attr({width: childWdth});
-	$("#chldVdO"+chldCnt).attr({height: childHeght});
-	
-	
-	var childX		=	parseFloat($('input#childX').val());
-	var childY		=	parseFloat($('input#childY').val());
-	addChildSpec(childWdth,childHeght,chldCnt,childX,childY,childType);
+	if (upload_field.files && upload_field.files[0]) {
+		var reader = new FileReader();
+		var re_text = /\.mp4/i;
+		var vidFlieName = upload_field.value;
+		if (vidFlieName.search(re_text) == -1) {
+			alert("Only mp4 Files");
+			$('#clonediv'+chldCunt).html('Video');
+			return false;
+		}
+		else{
+			reader.onload = function (e) { 
+				var childWdth	=	$('#chldWdth').val();
+				var childHeght	=	$('#chldHght').val();
+				var vdoTag		=	'<video id="childVdo'+chldCunt+'" controls><source src="'+e.target.result+'" type="video/mp4"></video>';
+				$("#clonediv"+chldCunt).find('span.vdoData').html(vdoTag);
+				//$('#clonediv'+chldCunt).html(vdoTag);
+				$("#childVdo"+chldCunt).attr({width: childWdth});
+				$("#childVdo"+chldCunt).attr({height: childHeght});
+				
+				/*------------------- Upload Video -------------------------------------------*/
+				upload_field.form.action = 'uploadChildVdo.php';
+				upload_field.form.target = 'upload_iframe';
+				upload_field.form.submit();
+				upload_field.form.action = '';
+				upload_field.form.target = '';
+				sessionStorage.setItem("chldVdoName"+chldCunt, vidFlieName);
+				
+				/*var childX		=	parseFloat($('input#childX').val());
+				var childY		=	parseFloat($('input#childY').val());
+				addChildSpec(childWdth,childHeght,chldCunt,childX,childY,childType);*/
+			};
+			reader.readAsDataURL(upload_field.files[0]);
+		}
+	}
 }
 
 /********************************************************************************************************************
@@ -707,18 +732,19 @@ function getChildSpecifications(counter){
 	var corData	=	("(x1,y1) => "+insideX1+","+insideY1 +" || (x2,y1)==>" +insideX2+","+insideY1 +" || (x1,y2)==>" +insideX1+","+insideY2 +" || (x2,y2)==>" +insideX2+","+insideY2);
 	
 	if(childType == 1){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+")' >U</td><td width='2px'></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+")' >U</td><td width='2px'></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 		
 		//Displays the values changed for an element
 		showTextDetails(counter);
 	}
 	
+	//---------------------------------------------------------------------------- Image Child Type -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	if(childType == 2){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldImg' id='chldImg' onchange='return ChldBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 	}
-	
+	//--------------------------------------------------------------------------------- Video Child Type ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	if(childType == 3){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childVdoFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='childVdoPath' id='childVdoPath' onchange='return changeChildVdo(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 	}
 	
 	if(childType == 4){
@@ -900,8 +926,24 @@ function slideSaveCall()
 		var fontStyle 	= sessionStorage.getItem("#chldFontStyle"+(i+1));
 		var txtDecor 	= sessionStorage.getItem("#chldTxtDecor"+(i+1));
 		
-		var wrappedChildArr	= {'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'txt':childText,'txtColor':txtColor,'txtSize':txtSize,'fontWeight':fontWeight,'fontStyle':fontStyle,'txtDecor':txtDecor};
-		
+		var ChldimgName 	= 	sessionStorage.getItem("chldImgName"+(i+1));
+		var ChldVdoName 	= 	sessionStorage.getItem("chldVdoName"+(i+1));
+		var childType		=	sessionStorage.getItem("childType"+(i+1));
+		//-----------------------------------------  Text Child --------------------------------------------------------------------------//
+		if(childType == 1)
+		{
+			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'txt':childText,'txtColor':txtColor,'txtSize':txtSize};
+		}
+		//-----------------------------------------  Image Child --------------------------------------------------------------------------//
+		if(childType == 2)
+		{
+			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldimgName};
+		}
+		//-----------------------------------------  Video Child --------------------------------------------------------------------------//
+		if(childType == 3)
+		{
+			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldVdoName};
+		}
 		mainArr.push(wrappedChildArr);
 	}
 	
@@ -922,4 +964,20 @@ function slideSaveCall()
 	else{
 	
 	}
+}
+function delChild(childType,chldCnt)
+{
+	var d 		= 	document.getElementById('frame');
+	var chlddiv = 	document.getElementById('clonediv'+chldCnt);
+	d.removeChild(chlddiv);
+	/*var dataStrng	=	'chldCnt='+chldCnt;
+	$.ajax({
+		type: "POST",
+		url: "Ajax/delChildObj.php",
+		cache: false,
+		data:dataStrng,
+		success: function(data) { 
+			showParSpec();
+		}
+	});*/
 }
