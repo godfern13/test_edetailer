@@ -20,9 +20,9 @@
 		$brandId	= 1;
 		$prentnNaMe	=	preg_replace('/\s+/','',$name);
 		$foldrPth	=	$prentnNaMe.$contentId;
-		$path 		= 	'../images/'.$foldrPth;
-		$pathPar	=	$path.'/parent';
-		$pathChld	=	$path.'/child';
+		$path 		= 	'../images/'.$foldrPth.'/';
+		$pathPar	=	$path.'parent/';
+		$pathChld	=	$path.'child/';
 		mkdir($path);
 		mkdir($pathPar);
 		mkdir($pathChld);

@@ -8,8 +8,8 @@ define("DB_PASSWORD", "");
 define("DB_DATABASE", "edetailing");
 
 /*define("DB_HOST", "localhost");
-define("DB_USER", "karbensc");
-define("DB_PASSWORD", "RoemTec*123");
+define("DB_USER", "karbensc_mahadev");
+define("DB_PASSWORD", "U#B}cdvhwck}");
 define("DB_DATABASE", "karbensc_edetailing");*/
 
 ?>

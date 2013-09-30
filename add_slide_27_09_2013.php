@@ -1,7 +1,6 @@
 <?php 
 	require_once "library/functions.php";
 	include("classes/classes.php");
-	include("library/dbcon.php");
 	sessionCheck();
 	
 	if(!(isset($_SESSION["msg"]))){
@@ -9,18 +8,12 @@
 	}
 	
 	$contentId = base64_decode($_GET['id']);
-	$addContentObj = new contentClass();
-	$addContentObj->addToContentArray($contentId);
-	$_SESSION['contentCnt'] = $contentId;
-	$_SESSION['contentObject'.$contentId] = serialize($addContentObj);
-	
-	$query 	= 	"SELECT name FROM  content WHERE id= ".$contentId." AND del_flag = 0";
-    $result = 	mysql_query($query)or die(mysql_error());
-	$rows 			= 	mysql_fetch_assoc($result);
-	$name			=	$rows['name'];
-	$prentnNaMe		=	preg_replace('/\s+/','',$name);
-	$foldrPth		=	$prentnNaMe.$contentId;
-	$_SESSION['mainPresntnName'] = $foldrPth;
+	 $addContentObj = new contentClass();
+	 $addContentObj->addToContentArray($contentId);
+	 $_SESSION['contentCnt'] = $contentId;
+	 $_SESSION['contentObject'.$contentId] = serialize($addContentObj);
+	 
+	 
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

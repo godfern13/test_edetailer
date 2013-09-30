@@ -2,8 +2,8 @@
 	/*---------------------------------Database Connections for MySQL------------------------------------------*/
 	
 	/*$db_server = "localhost"; 	
-	$db_user = "karbensc";			
-	$db_pass = "RoemTec*123"; 				
+	$db_user = "karbensc_mahadev";			
+	$db_pass = "U#B}cdvhwck}"; 				
 	$database = "karbensc_edetailing";*/
  
 	$db_server = "localhost"; 	

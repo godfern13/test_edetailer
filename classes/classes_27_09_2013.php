@@ -92,13 +92,15 @@
 		}
 		public function saveParentData()
 		{
+			
 			$generalObj = new general();
 			
 			$table_name	= 'parent';
 			$table_col	= 'id';
 			$prntId		= $generalObj->getPK($table_name,$table_col);
 			
-			$contentId = $_SESSION['contentCnt'];
+			$contentId = $generalObj->getLastId('content');//Fetch the content id Content Table
+			//$url = '';
 			
 			$parentName			=	$this->parName;
 			$parentCretedDte	=	$this->parCrDte;
@@ -115,7 +117,7 @@
 				$imgUrl = '';
 			}
 			else{
-				$imgUrl = 'images/'.$_SESSION['mainPresntnName'].'/parent/'.$parentBgImg;
+				$imgUrl = $parentBgImg;
 			}
 			
 			if($childCount> 0 ){
@@ -314,57 +316,13 @@
 			$childRefLink	=	$this->childRefLink;
 			$childRefLinkBg	=	$this->childRefLinkBg;
 			
-			if($childCntType == '1'){
-				$contntUrl		=	'';
-				$contentText	=	$childText;
-				$contentStyle	=	$childTextClr.'|'.$childTextSize;
-			}
-			if($childCntType == '2'){
-				if($childImgPath != ""){
-					$contntUrl		= 	'images/'.$_SESSION['mainPresntnName'].'/child/'.$childImgPath;
-				}
-				else{
-					$contntUrl	=	'';
-				}
-				$contentText	=	'';
-				$contentStyle	=	'';
-			}
-			if($childCntType == '3'){
-				if($childVdoPath != ""){
-					$contntUrl		= 	'images/'.$_SESSION['mainPresntnName'].'/child/'.$childVdoPath;
-				}
-				else{
-					$contntUrl	=	'';
-				}
-				$contentText	=	'';
-				$contentStyle	=	'';
-			}
-			if($childCntType == '4'){
-				$contntUrl		=	'';
-				$contentText	=	'';
-				$contentStyle	=	'';
-			}
-			$childFrameData	=	$childWidth.','.$childheight.','.$childX.','.$childY;
+			$childCntType = 0;
+			$childImgPath = '';
+			
 			//-------------------------------- Query to add Child Data ---------------------------------------------//
-			$query = 	"INSERT INTO child(id,parent_id,name,type,content_url,frame,isAnimated,animType,animPathCord,delayTime,
-												content_extention,content_text,content_style,added_on,updated_on)
-							VALUES(".$chldId.",".$parentId.",'".$childName."',".$childCntType.",'".$contntUrl."','".$childFrameData."',
-							".$animated.",'".$animationType."','".$animationPathCord."','".$delaySlideTime."','".$ext."',
-							'".$contentText."','".$contentStyle."','".$childCretedDte."','".$childUpdtedDte."')";
-			$result 	= 	mysql_query($query)or die(mysql_error());
-			$childResid = 	mysql_insert_id();
-			if($childCntType == '4'){
-				if($childRefLinkBg != ""){
-					$referenceUrl		= 	'images/'.$_SESSION['mainPresntnName'].'/child/'.$childRefLinkBg;
-				}
-				else{
-					$referenceUrl	=	'';
-				}
-				$referencesL	=	$childRefLink;
-				$query2 = 	"INSERT INTO childreferences(child_id,ref_url,ref_link,added_on,updated_on)
-							VALUES('".$childResid."','".$referenceUrl."','".$referencesL."','".$childCretedDte."','".$childUpdtedDte."')";
-				$result 	= 	mysql_query($query2)or die(mysql_error());
-			}
+			$query = "	INSERT INTO child(id,parent_id,name,type,content_url,frame,isAnimated,animType,animPathCord,delayTime,content_extention,added_on,updated_on)
+									VALUES(".$chldId.",".$parentId.",'".$childName."',".$childCntType.",'".$childImgPath."','".$childFrameData."',".$animated.",'".$animationType."','".$animationPathCord."','".$delaySlideTime."','".$ext."','".$childCretedDte."','".$childUpdtedDte."')";
+			$result = mysql_query($query)or die(mysql_error());
 		}
 		//------------------------------------------------- Function to Get Child Specification ----------------------------------------------//
 		public function getChildSpecification()

@@ -27,13 +27,13 @@ require_once("../library/dbcon.php");
 				$image = 'images/default.jpg';
 			}
 			else{
-				$image = $imgpath;
+				$image = "images/".$foldrPath."/parent/".$imgpath."";
 			}
 			
 			$data .= '	<a href="slide.php?id='.base64_encode($id).'">
 							<div id="slide'.$id.'" class="prsntContent" >
 								<span class="slideHeader"><strong style=" display: block;margin:5px 0 ;">'.$name.'</strong></span>
-								<img src="'.$image.'" class="presntnImg"></img>
+								<img src='.$image.' class="presntnImg"></img>
 								<input type="hidden" id="presnt_id" name="presnt_id" value='.$id.'>
 							</div>
 						</a>';

@@ -11,7 +11,7 @@
 	$childType		=	$_POST['childType'];
 	$childText		=	$_POST['childText'];if($childText == "" || $childText == 'undefined'){ $childText = 'Sample Text';}
 	$childImgPath	=	$_POST['childImgPath'];if($childImgPath == "" || $childImgPath == 'undefined'){ $childImgPath = '';}
-	$childTextClr	=	$_POST['childTextClr'];if($childTextClr == "" || $childTextClr == 'undefined'){ $childTextClr = 'fff';}
+	$childTextClr	=	$_POST['childTextClr'];if($childTextClr == "" || $childTextClr == 'undefined'){ $childTextClr = 'FFFFFF';}
 	$childTextSze	=	$_POST['childTextSze'];if($childTextSze == "" || $childTextSze == 'undefined'){ $childTextSze = '12';}
 	$childVdoPath	=	$_POST['childVdoPath'];if($childVdoPath == "" || $childVdoPath == 'undefined'){ $childVdoPath = '';}
 	$childRefLink	=	$_POST['childRefLink'];if($childRefLink == "" || $childRefLink == 'undefined'){ $childRefLink = '';}

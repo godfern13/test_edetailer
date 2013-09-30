@@ -38,7 +38,7 @@ session_start();
 						$image = 'images/default.jpg';
 					}
 					else{
-						$image = $imgpath;
+						$image = 'images/'.$foldrPath.'/parent/'.$imgpath.'';
 					}
 				}				
 			}
