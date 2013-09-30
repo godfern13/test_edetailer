@@ -1,0 +1,48 @@
+#pagination ul li.inactive{
+    background-color:#ededed;
+    color:#bababa;
+	border:1px solid #bababa;
+    cursor: default;
+}
+/*,#appointmentPagination ul li.inactive:hover*/
+
+/*#menuDisplayContentData .data ul li{
+    list-style: none;
+    font-family: arial narrow;
+    margin: 5px 0 5px 0;
+    color: #000;
+    font-size: 12px;
+}*/
+#pagination{
+	float:left;
+	/*width: 611px;*/
+    height: 50px;
+	margin:10px 0 0 0px;
+}
+
+#pagination ul{
+	float:left;
+	margin: 10px 0 20px -10px;
+	border:none;
+	width: 575px;
+	text-align:center;
+	
+}
+#pagination ul li{
+    list-style: none;
+	float: none;
+    border: 1px solid #006699;
+    padding: 2px 6px 2px 6px;
+    margin: 0 3px 0 3px;
+    font-family: arial narrow;
+    font-size: 12px;
+    color: #006699;
+    font-weight: bold;
+    background-color: #f2f2f2;
+	text-align:center;
+}
+#pagination ul li:hover{
+    color: #fff;
+    background-color: #006699;
+    cursor: pointer;
+}

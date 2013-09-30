@@ -1,0 +1,318 @@
+body {
+    background: none repeat scroll 0 0 #DCEBF9;
+    font-family: times new roman;
+    font-size: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper{
+	float:left;
+	width:100%;
+	margin:0 auto;
+	background: none repeat scroll 0 0 #DCEBF9;
+}
+#mainWrapper{
+	float:left;
+	width:980px;
+	margin-left:14.5%;
+	background: none repeat scroll 0 0 #FFFFFF;
+}
+#container{
+	float:left;
+	margin:0;
+	padding:0;
+	width:980px;
+}
+ul,li{
+	text-decoration: none;
+	display:inline;
+	list-style-type: none;
+	float:left;
+}
+
+a{
+/*float:left;*/
+margin:0;
+padding:0;
+color:#000000;
+font:12px;
+text-decoration:none;
+}
+
+p{
+float:left;
+margin:0;
+padding:0;
+}
+
+#errorMgs{
+position:absolute;
+top:250px;
+left:575px;
+margin: 0;
+padding: 5px;
+/*width: 100px;
+height:30px;*/
+background:#DDDDDD;
+border:1px solid #A0A0A0;
+border-radius:10px;
+display:none;
+}
+
+.errormsg{
+float:left;
+padding: 0px;
+color: #DD4B39;
+display:none;
+line-height: 17px;
+margin:  0;
+width:405px;
+}
+/* ---------Main Styles Ends Here ----------- */
+
+/* ---------Header Styles Starts Here ----------- */
+
+#header {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 980px;
+}
+
+#header-top-div {
+    background: url("../images/admin_header.png") repeat-x scroll 0 0 transparent;
+    float: left;
+    height: 46px;
+    margin: 0;
+    padding: 5px 0 10px;
+    width: 980px;
+}
+
+#admin-logos {
+    color: #000000;
+    float: left;
+    height: 80px;
+    margin: 0;
+    padding: 0;
+    width: 980px;
+}
+
+.main_logo {
+    float: left;
+    height: 75px;
+    margin: 0 0 0px 360px;
+    padding: 0;
+    /*width: 200px;*/
+	text-align: center;
+	font: 48px arial;
+	color:#7AC1ED;
+}
+
+#admin-logos ul {
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 980px;
+}
+
+#admin-logos ul li {
+    float: left;
+    padding: 0;
+    text-align: center;
+}
+
+#DivAdminLinks {
+    float: left;
+    margin: 20px 0 0;
+    padding: 0px 50px;
+    width: 878px;
+	background:#7ACFF7;
+	border:1px solid #5BA8A8;
+}
+
+#DivAdminLinks ul {
+    float: left;
+    font-family: Arial,Verdana;
+    font-size: 14px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0px 0 0;
+}
+
+#DivAdminLinks ul li {
+    display: block;
+    margin: 0 0 0 30px;
+    padding: 3px 0;
+    position: relative;
+}
+
+#DivAdminLinks li ul {
+    display: none;
+	background:#7ACFF7;
+	margin:3px 0 0;
+	border:1px solid #5BA8A8;
+	z-index: 100;
+}
+
+#DivAdminLinks li ul li{
+	margin:3px 0 0;
+	color:#FFFFFF;
+}
+
+#DivAdminLinks li ul li a{
+	border-bottom: 1px solid #5BA8A8;
+    color: #FFFFFF;
+    margin: 3px 0 0;
+    padding: 0 5px;
+    width: 105px;	
+}
+
+
+#DivAdminLinks ul li a {
+    display: block;
+    text-decoration: none;
+    color:#000000;
+    padding:3px 0 2px 0px;
+    white-space: nowrap;
+	height:20px;
+	font-family: Georgia;
+	font-size: 16px;
+}
+#DivAdminLinks ul li a:hover
+{
+color:#E50000;
+}
+
+#DivAdminLinks li:hover ul {
+    display: block;
+    position: absolute;
+}
+/* ---------Header Styles Ends Here ----------- */
+
+/*-----------Add User Styles--------------------*/
+
+#user-form-element{
+float:left;
+margin:60px 0 0 190px;
+padding: 0;
+width:600px;
+}
+
+#user-form-element ul{
+float:left;
+margin:0;
+padding: 0;
+width:600px;
+font: 14px arial;
+}
+
+#user-form-element ul li{
+float:left;
+margin:0 0 15px 0;
+padding: 0;
+}
+
+.userTextBox {
+    border: 1px solid #EAEAEA;
+    color: #A09A9A;
+    float: left;
+    font-size: 14px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    width: 265px;
+}
+
+#msgDiv{
+float:left;
+margin: 15px 0 0 415px;
+padding: 5px 20px;
+background:turquoise;
+border:1px solid powderblue;
+border-radius:2px;
+box-shadow: 0 1px 5px 0;
+display:none;
+}
+
+/*-----------------------------------------------View Users---------------------------------------*/
+#viewUserDiv{
+float:left;
+margin:50px 0 0 190px;
+padding: 0;
+width:700px;
+}
+
+#usertable{
+float:left;
+margin:0;
+padding: 0;
+width:602px;
+border:1px solid;
+}
+
+#tbHeader{
+float:left;
+margin:0;
+padding: 0;
+width:602px;
+}
+
+#tbHeader ul{
+float:left;
+margin:0;
+padding: 0;
+width:602px;
+border-bottom:1px solid;
+font: bold 14px arial;
+}
+
+#tbHeader ul li{
+float:left;
+margin:0;
+padding: 5px 0;
+border-left:1px solid;
+text-align: center;
+}
+
+#tbContent{
+float:left;
+margin:0;
+padding: 0;
+width:602px;
+}
+#tbContent2{
+float:left;
+margin:0;
+padding: 0;
+width:602px;
+border-bottom:1px solid;
+}
+#tbContent2 ul{
+/*border-bottom: 1px solid;*/
+float: left;
+font:12px arial;
+margin: 0;
+padding: 0;
+width: 602px;
+}
+
+#tbContent2 ul li{
+float:left;
+margin:0;
+padding: 5px 0;
+border-left:1px solid;
+text-align: center;
+}
+
+
+
+#footerDiv{
+float:left;
+margin:0;
+padding: 0;
+width:980px;
+height:50px;
+background: none repeat scroll 0 0 #00BAFF;
+}

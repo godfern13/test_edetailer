@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <META HTTP-EQUIV="EXPIRES" CONTENT="-1" />
+        <script type="text/javascript">
+            function showFrontLayer() {
+                document.getElementById('bg_mask').style.visibility='visible';
+                document.getElementById('frontlayer').style.visibility='visible';
+            }
+            function hideFrontLayer() {
+                document.getElementById('bg_mask').style.visibility='hidden';
+                document.getElementById('frontlayer').style.visibility='hidden';
+            }
+			
+			function click1(){
+				alert('bg_mask');
+			}
+			
+			function click2(){
+				alert('frontlayer');
+			}
+        </script>
+        <style type="text/css">
+
+        #bg_mask {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            margin-top: 0px;
+            width: 981px;
+            height: 610px;
+            background-color : yellow;
+            z-index: 0;
+            /*visibility: hidden;*/
+        } 
+
+        #frontlayer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 70px 140px 175px 140px;
+            padding : 30px;
+            width: 700px;
+            height: 400px;
+            background-color: orange;
+           /* visibility: hidden;*/
+            border: 1px solid black;
+            z-index: 1;
+        } 
+
+
+        </style>
+    </head>
+<body>
+<form action="test.html">
+    <div id="baselayer">
+
+        <input type="text" value="testing text"/>
+        <input type="button" value="Show front layer" onclick="showFrontLayer();"/> Click 'Show front layer' button<br/><br/><br/>
+
+        Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text
+        Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text
+        Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing textsting text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text Testing text
+            <div id="bg_mask" onclick="click1();">
+            <div id="frontlayer" onclick="click2();"><br/><br/>
+                Now try to click on "Show front layer" button or the text box. It is not active.<br/><br/><br/>
+                Use position: absolute to get the one div on top of another div.<br/><br/><br/>
+                The bg_mask div is between baselayer and front layer.<br/><br/><br/>
+                In bg_mask, img_dot_white.jpg(1 pixel in width and height) is used as background image to avoid IE browser transparency issue;<br/><br/><br/>
+                <input type="button" value="Hide front layer" onclick="hideFrontLayer();"/>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

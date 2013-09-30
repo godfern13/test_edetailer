@@ -1,0 +1,784 @@
+body {
+    background: none repeat scroll 0 0 #DCEBF9;
+    font-family: times new roman;
+    font-size: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#wrapper{
+	float:left;
+	width:100%;
+	margin:0 auto;
+	background: none repeat scroll 0 0 #DCEBF9;
+}
+#mainWrapper{
+	float:left;
+	width:100%;
+	background: none repeat scroll 0 0 #FFFFFF;
+}
+#container{
+	float:left;
+	margin:0;
+	padding:0;
+	width:980px;
+}
+
+ul,li{
+	text-decoration: none;
+	display:inline;
+	list-style-type: none;
+	float:left;
+}
+
+a{
+/*float:left;*/
+margin:0;
+padding:0;
+color:#000000;
+font:12px;
+text-decoration:none;
+}
+
+p{
+margin:0;
+padding:0;
+}
+
+#errormsg{
+position:absolute;
+margin:0;
+padding:10px;
+top:50px;
+left:570px;
+background:seashell;
+display:none;
+}
+
+.errormsg{
+float:left;
+padding: 0px;
+color: #DD4B39;
+display:none;
+line-height: 17px;
+margin:  0 0 0 5px;
+}
+
+/*----------------------------------Header Styles----------------------------------------*/
+#headerDiv{
+float:left;
+margin:0px;
+padding:0px 0 0 0;
+width:100%;
+height:120px;
+background: #FFFFFF;/*#004C66*/
+}
+
+#logoDiv{
+position: absolute;
+margin: 7px 0 0 95px;
+font-style:italic;
+font: 28px arial;
+text-align:center;
+border:none;
+}
+
+#header-top-div {
+background: #FFFFFF;
+float: left;
+height: 46px;
+margin: 0;
+padding: 5px 0 10px 20px;
+width: 98%;
+color:#E93F20;
+}
+
+/*------------------------------------Login Styles---------------------------------------*/
+#loginWrapper{
+float:left;
+margin:0 0 0 125px;
+padding:0px 0 0 0;
+width:980px;
+height: 464px;
+background: #FFFFFF;/*#004C66*/
+}
+
+#loginDiv{
+float:left;
+margin:0 0 0;
+padding:10px 20px;
+height: 444px;
+background: #F6F6F6;/*#004C66*/
+}
+
+#loginDiv ul{
+float:left;
+margin:0px;
+padding:40px 0;
+width:400px;
+border:2px solid #A0A0A0;
+background: #F6F6F6;
+}
+
+#loginDiv ul li{
+float:left;
+margin:0 0 12px 0;
+padding:0px 0 0 0;
+width:400px;
+text-align: center;
+}
+
+.loginTextBox{
+margin:0px 0;
+padding:0px 0 0 0;
+width:200px;
+height:25px;
+border:2px solid #A0A0A0;
+border-radius:4px;
+}
+
+.loginButton{
+margin:0px 0;
+padding:3px 45px;
+border:2px solid #A0A0A0;
+border-radius:4px;
+}
+
+/*-------------------------------Forgot Password Styles-------------------------------------*/
+#frgtPswdDiv{
+float:left;
+margin:0px;
+padding:30px 0;
+width:400;
+height:80px;
+background: #CECECE;
+}
+
+#frgtPswdDiv ul{
+float:left;
+margin:0px;
+padding:0 0 0;
+width:400px;
+}
+
+#frgtPswdDiv ul li{
+float:left;
+margin:0 0 20px 0;
+padding:0 0 0;
+width:400;
+text-align:center;
+}
+
+/*----------------------------------DASHBOARD STYLES------------------------------------------*/
+#menu{
+margin: 0 0 40px 0;
+padding:0 0 0;
+width: 100%;
+height:40px;
+}
+
+#menu>.addbtn{
+background: none repeat scroll 0 0 #D9D9D9;
+border-radius: 20px 20px 20px 20px;
+float: right;
+margin: 0 125px 0 0;
+padding: 5px 15px;
+width: 60px;
+cursor:pointer;
+}
+
+.contentDisplay{
+margin: 0 0 20px 0;
+padding:0 0 0;
+width: 1100px;
+min-height:400px;
+background: #FFFFFF;
+box-shadow:0px 0px 25px 5px #A9A9A9;
+display: inline-block;
+}
+
+/*
+#linkNav{
+float: left;
+margin: 0 0 0 130px;
+padding: 0px;
+}
+
+#linkNav a{
+float: left;
+font-style:italic;
+text-decoration:underline;
+}
+*/
+
+/********************************/
+
+#backgroundPopup {
+z-index:30;
+position: fixed;
+display:none;
+height:100%;
+width:100%;
+background:#000000;
+top:0px;
+left:0px;
+}
+	
+#toPopup {
+font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+background: none repeat scroll 0 0 #FFFFFF;
+box-shadow:0px 0px 15px 3px ghostwhite;
+color: #333333;
+display: none;
+font-size: 14px;
+left: 50%;
+margin-left: -402px;
+position: fixed;
+/*top: 20%;*/
+width: 800px;
+z-index: 40;
+}
+
+#sharePopup {
+font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+background: none repeat scroll 0 0 #FFFFFF;
+box-shadow:0px 0px 15px 3px ghostwhite;
+color: #333333;
+display: none;
+font-size: 14px;
+left: 50%;
+margin-left: -402px;
+position: fixed;
+/*top: 20%;*/
+width: 800px;
+z-index: 40;
+}
+	
+div.loader {
+background: url("../img/loading.gif") no-repeat scroll 0 0 transparent;
+height: 32px;
+width: 32px;
+display: none;
+z-index: 9999;
+top: 40%;
+left: 50%;
+position: absolute;
+margin-left: -10px;
+}
+	
+div.close {
+background: url("../images/closebox.png") no-repeat scroll 0 0 transparent;
+cursor: pointer;
+height: 30px;
+position: absolute;
+right: -27px;
+top: -24px;
+width: 30px;
+}
+	
+span.ecs_tooltip {
+background: none repeat scroll 0 0 #000000;
+border-radius: 2px 2px 2px 2px;
+color: #FFFFFF;
+display: none;
+font-size: 11px;
+height: 16px;
+opacity: 0.7;
+padding: 4px 3px 2px 5px;
+position: absolute;
+right: -62px;
+text-align: center;
+top: -51px;
+width: 93px;
+}
+
+span.arrow {
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+border-top: 7px solid #000000;
+display: block;
+height: 1px;
+left: 40px;
+position: relative;
+top: 3px;
+width: 1px;
+}
+
+div#popup_content {
+margin: 4px 7px;
+/* remove this comment if you want scroll bar
+overflow-y:scroll;
+height:200px
+*/
+}
+
+div.popupForm{
+float:left;
+margin: 0;
+padding:0 0 0;
+width: 100%;
+height:200px;
+}
+
+div.popupForm ul{
+float:left;
+margin: 0;
+padding:40px 0 0 75px;
+font:16px Verdana;
+}
+
+div.popupForm ul li{
+float:left;
+margin: 0 0 20px 0;
+padding:0 0 0;
+}
+
+.popupTextbox{
+width:400px;
+height:40px;
+font: 16px verdana;
+}
+
+.popupBtn{
+width:200px;
+height:40px;
+font: 16px verdana;
+}
+
+#succesMsg{
+float:left;
+margin: 0;
+padding:5px 10px;
+display:none;
+}
+
+
+/*****All Presentations Display*************/
+#prsntDiv{
+min-height:400px;
+margin: 0 auto;
+padding: 20px 23px;
+width: 1054px;
+display: inline-block;
+}
+
+.presentnHeader{
+float:left;
+margin: 0 0px;
+padding:0px;
+width:150px;
+text-align:center;
+background:#D9D9D9;
+}
+
+.slideHeader{
+float:left;
+margin: 0 0px;
+padding:0px;
+width:150px;
+text-align:center;
+background:#D9D9D9;
+}
+
+.prsntContent{
+float:left;
+margin: 0 0 20px 20px;
+padding:0px;
+width:150px;
+height:150px;
+text-align:center;
+/*box-shadow: 0 0 5px 0 ThreeDShadow;*/
+border-radius: 0 0 20px 20px;
+}
+
+.clickable{
+float:left;
+margin: 0px;
+padding:0px;
+width:150px;
+height:150px;
+}
+
+.prsntContent:hover #hoverContent{
+cursor:pointer;
+display: block;
+}
+
+.presntnImg{
+float:left;
+margin: 0px;
+padding:0px;
+width:150px;
+border-radius: 0 0 20px 20px;
+}
+
+
+#prsntContent:hover{
+background:grey;
+cursor:pointer;
+display: block;
+z-index:1000;
+}
+
+#hoverContent{
+position:absolute;
+margin:30px 0 0 0;
+width:140px;
+height:20px;
+display:none;
+}
+
+.tooltip{
+    display: inline;
+    position: relative;
+}
+
+.tooltip:hover:after{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(title);
+    left: 20%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 98;
+    width: 220px;
+}
+
+.tooltip:hover:before{
+    border: solid;
+    border-color: #333 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
+}
+
+
+
+.source-image {
+	position: relative;
+	display: block;"
+}
+.source-image img {
+    display: block
+}/*
+.source-image:after {
+    
+    width: 32px;
+    height: 32px;
+    display: block;
+    content: ' ';
+    position: absolute;
+    bottom: 0;
+    right: 0
+}*/
+
+/********************************/
+
+/****************************************SLIDE STYLES*****************************************/
+#webFrameBody{
+background: none repeat scroll 0 0 #FFFFFF;
+box-shadow: 0 0 25px 5px #A9A9A9;
+display: inline-block;
+margin: 0 0 20px;
+min-height: 400px;
+padding: 0;
+width: 1100px;
+}
+
+#webFrameMenu{
+background: none repeat scroll 0 0 #FFFFFF;
+margin: 0 0 0px;
+height: 40px;
+padding: 5px 0 0 0;
+width: 1100px;
+border-bottom:1px solid #F6F6F6;
+}
+
+#webFrameMenu ul{
+background: none repeat scroll 0 0 #FFFFFF;
+margin: 0 0 0;
+height: 40px;
+padding: 0 0 0 5px;
+width: 1100px;
+}
+
+#webFrameMenu ul li{
+float:left;
+background: none repeat scroll 0 0 #FFFFFF;
+margin: 0 0 0px;
+padding: 0;
+}
+
+#createArea{
+float:left;
+margin:0 0 0;
+padding:0 0 0;
+width:800px;
+min-height: 400px;
+}
+
+#frame{
+	width:800px;
+	height:550px;
+	background:#185871;
+	background-repeat: repeat-y;
+    background-position: 0 0;
+	z-index: 0;
+}
+
+#rightDiv{
+float:left;
+margin:0 0 0;
+padding:0 0 0;
+width:300px;
+min-height: 400px;
+background:#F6F6F6;
+}
+
+#specfcatnDiv{
+float:left;
+margin:0 0 0;
+padding:0 0 0;
+width:299px;
+min-height: 350px;
+}
+
+#options{
+float:left;
+margin:0 0 0;
+padding:0 0 0;
+width:299px;
+min-height: 200px;
+background:#EBEBEB;
+}
+
+.addTool{
+float:left;
+margin:0 0 0;
+padding:0 0 0;
+width:80px;
+height: 40px;
+border:1px solid;
+cursor:move;
+}
+
+#tools ul{
+float:left;
+margin:0 0 0;
+padding:10px;
+}
+
+#tools ul li{
+float:left;
+margin:0 0 0;
+padding:0 0 0;
+width:80px;
+height: 40px;
+border:1px solid;
+cursor:move;
+}
+
+/********************** Change 17/09/2013 START************************/
+#drag1 {
+	margin-left:15px;
+	margin-top:15px;
+	width:60px;
+	height:60px;
+	float:left;
+	border:1px solid #000;
+	color:#000;
+	text-align:center;
+}
+#drag2 {
+	margin-left:15px;
+	margin-top:15px;
+	width:60px;
+	height:60px;
+	float:left;
+	border:1px solid #000;
+	color:#000;
+	text-align:center;
+}
+#drag3 {
+	margin-left:15px;
+	margin-top:15px;
+	width:60px;
+	height:60px;
+	float:left;
+	border:1px solid #000;
+	color:#000;
+	text-align:center;
+}
+#drag4 {
+	margin-left:15px;
+	margin-top:15px;
+	width:70px;
+	height:25px;
+	float:left;
+	border:1px solid #000;
+	color:#000;
+	text-align:center;
+}
+/********************** Change 17/09/2013 END************************/
+.ui-draggable-helperMoving {
+	border: 1px dotted #000;
+	padding: 6px;
+	background: #fff;
+	font-size: 1.2em;
+	width:100px;
+	height:100px;
+}
+.ui-draggable-helperStoped {
+	border: 1px solid #000;
+	width:5px;
+	height:5px;
+}
+/* classes for dragged stuff */
+.dragged1 {
+	position:absolute; 
+	border:1px dashed #fff;
+	/*background:#fff;*/
+	width:200px;
+	height:100px;
+	color:#fff;
+}
+/* classes for dragged stuff */
+.dragged2 {
+	position:absolute; 
+	border:1px dashed #000;
+	/*background:#fff;*/
+	width:70px;
+	height:25px;
+}
+
+/******************************************SEND TO BACK & BRING TO FRONT STYLES******************************************************/
+
+.selected{
+
+    border: 1px solid red;
+}
+
+.backBtn{
+float:left;
+background:#8F9DB7;
+border:1px solid;
+margin: 0 0 0 10px;
+cursor:pointer;
+}
+
+.frntBtn{
+float:left;
+background:#8F9DB7;
+border:1px solid;
+margin: 0 0 0 10px;
+cursor:pointer;
+}
+
+.toolBtn{
+background:#FFDE7A;
+border:1px solid #54BCE7;
+border-radius:3px;
+margin: 0 0 0 70px;
+cursor:pointer;
+display: inline;
+}
+/************************************************************************************************************************/
+
+
+
+
+/**************************************PROFILE STYLES*****************************************/
+#profileWrapper{
+margin:0 auto;
+padding:25px 0 0;
+width:50%;
+display: inline-block;
+background: #FFFFFF;
+box-shadow:0px 0px 5px 1px #E5E5E5;
+font-size: 16px;
+font-family: 'Open Sans Light',sans-serif;
+font-weight: normal;
+line-height: 100%;
+text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+#profileContent{
+margin:0 auto;
+padding:0 0 0;
+width:50%;
+display: inline-block;
+}
+
+#profileContent ul{
+padding:0 0 0;
+width:90%;
+display: inline-block;
+text-align: left;
+}
+
+#profileContent ul li{
+float:left;
+margin:0 0 15px 0;
+padding:0 0 0;
+}
+
+.profAddress{
+width:355px;
+
+}
+.profAddress>p{
+ margin: 0 0 25px 140px;
+}
+
+
+.profContact{
+width:355px;
+}
+
+.profContact>p{
+margin: 0 0 25px 140px;
+text-align: left;
+width: 260px;
+}
+#footer{
+	width:100%;
+	height:15px;
+	float:left;
+	margin:0;
+	padding:0;
+}
+/*--------------------------------FOOTER STYLES-------------------------------*/
+#footerDiv{
+float:left;
+margin:0px;
+padding:0 0 0;
+width:100%;
+height:80px;
+background: #000000;
+}
+
+#footerDevBy{
+float:right;
+margin:30px 15px 0 0px;
+padding:0 0 0;
+color:#FFFFFF;
+}
+#footerDevBy a{
+color:#FFFFFF;
+}
+
+#footerBottom{
+float:left;
+margin:5px 0 0 0;
+padding:0 0 0;
+width:100%;
+height:30px;
+background: #000000;
+}
