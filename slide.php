@@ -93,7 +93,7 @@ $( "#resizable" ).resizable({ handles: "n, e, s, w" });
 							</div>
 							<div id="options">
 								<iframe name="upload_iframe" id="upload_iframe" style="display:none;"></iframe>
-								<div id="drag1" class="drag">Text</div>
+								<div id="drag1" class="drag"><p class="textData">Text</p></div>
 								<div id="drag2" class="drag">Image</div>
 								<div id="drag3" class="drag">Video</div>
 								<div id="drag4" class="drag">Reference</div>
