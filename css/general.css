@@ -527,9 +527,10 @@ min-height: 400px;
 #frame{
 	width:800px;
 	height:550px;
-	background:#185871;
-	background-repeat: repeat-y;
-    background-position: 0 0;
+	/*background:#185871;*/
+	background:url('../images/default_bg.jpg') no-repeat;
+	background-size:cover;
+	background-position: 0 0;
 	z-index: 0;
 }
 

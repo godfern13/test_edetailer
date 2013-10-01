@@ -480,41 +480,40 @@ function ChldBgImgURL(upload_field,childType,chldCunt) {
 		}
 	}
 }
-function ChldRefBgImgURL(upload_field,chldCunt,childType)
+function ChldRefBgImgURL(upload_field,childType,chldCunt)
 {
-	if (upload_field.files && upload_field.files[0]) {
-		var reader = new FileReader();
-		reader.onload = function (e) { 
-			var img = new Image();
-			var chldWdth	=	$('#chldWdth').val();
-			var chldHght	=	$('#chldHght').val();
-			var ImgTag		=	'<img id="chldRefImg'+chldCunt+'" src="'+e.target.result+'" class="source-image" />';
-			$('#clonediv'+chldCunt).html(ImgTag);
-			$("#chldRefImg"+chldCunt).attr({width: chldWdth});
-			$("#chldRefImg"+chldCunt).attr({height: chldHght});
-		};
-		reader.readAsDataURL(upload_field.files[0]);
-	}
-	/*---------------------------------------------- Upload Image To Server Script --------------------------------*/
-	var re_text = /\.jpg|\.gif|\.jpeg/i;
-	var filename = upload_field.value;
-	if (filename.search(re_text) == -1) {
-		alert("File should be either jpg or gif or jpeg");
-		$('#clonediv'+chldCunt).html('');
-		return false;
-	}
-	upload_field.form.action = 'uploadChildRefImg.php';
-	upload_field.form.target = 'upload_iframe';
-	upload_field.form.submit();
-	upload_field.form.action = '';
-	upload_field.form.target = '';
-	document.getElementById('chldRefBgImg'+chldCunt).value = filename;
 	
-	var childWdth	=	parseFloat($('input#chldWdth').val());
-	var childHeght	=	parseFloat($('input#chldHght').val());
-	var childX		=	parseFloat($('input#childX').val());
-	var childY		=	parseFloat($('input#childY').val());
-	addChildSpec(childWdth,childHeght,chldCunt,childX,childY,childType);
+	if (upload_field.files && upload_field.files[0]) {
+  var reader = new FileReader();
+  var re_text = /\.jpg|\.gif|\.jpeg/i;
+  var filename = upload_field.value;
+  if (filename.search(re_text) == -1) {
+   alert("File should be either jpg or gif or jpeg");
+   $("#clonediv"+chldCunt).find('span.imgRefData').html('References');
+   return false;
+  }
+  else
+  {
+   reader.onload = function (e) { 
+    var img = new Image();
+    var chldWdth = $('input#chldWdth').val();
+    var chldHght = $('input#chldHght').val();
+    var ImgTag  = '<img id="chldRefImg'+chldCunt+'" src="'+e.target.result+'" class="source-image" />';
+	$("#clonediv"+chldCunt).find('span.imgRefData').html(ImgTag);
+    $("#chldRefImg"+chldCunt).attr({width: chldWdth});
+    $("#chldRefImg"+chldCunt).attr({height: chldHght});
+    
+    /*---------------------------------------------- Upload Image To Server Script --------------------------------*/
+    upload_field.form.action = 'uploadChildRefImg.php';
+    upload_field.form.target = 'upload_iframe';
+    upload_field.form.submit();
+    upload_field.form.action = '';
+    upload_field.form.target = '';
+	sessionStorage.setItem("chldRefBgImg"+chldCunt, filename);
+   };
+   reader.readAsDataURL(upload_field.files[0]);
+  }
+}
 }
 /*------------------------------------- Function to change Child Video ----------------------------------*/
 function changeChildVdo(upload_field,childType,chldCunt)
@@ -596,15 +595,19 @@ function getParentSpec(){
 	
 	var parentWdth	=	$("#frame").width();
 	var parentHght	=	$("#frame").height();
+	var parentName	=	$("#sepcName").val();
+	var pBgImgName	=	$("#pBgImgName").val();
 	
-	var rgb	=	$("#frame").css("background-color");
-	
-	rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-    function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
-    }
-    var parentBgClr = hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-
+	/*var rgb	=	$("#frame").css("background-color");
+	alert(rgb);
+	if(rgb != "")
+	{
+		rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+		function hex(x) {
+			return ("0" + parseInt(x).toString(16)).slice(-2);
+		}
+		var parentBgClr = hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+	}
 	
 	var parentName	=	$("#sepcName").val();
 	var pBgImgName	=	$("#pBgImgName").val();
@@ -616,15 +619,15 @@ function getParentSpec(){
 							'00d2cb','3166ff','6434fc','656565','9a0000','ce6301','cd9934','999903','009901','329a9d','3531ff',
 							'6200c9','343434','680100','963400','986536','646809','036400','34696d','00009b','303498','000000',
 							'330001','643403','663234','343300','013300','003532','010066','340096'];
-	
-	$( "#specfcatnDiv" ).html( "<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Name</td><td>:</td><td><input type='text' name='sepcName' id='sepcName' onchange='return chngeParSpec()' value='test'/></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='sepcWdth' id='sepcWdth' value='"+parentWdth+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='sepcHght' id='sepcHght' value='"+parentHght+"'/></td></tr><tr height='5px'></tr><tr><td>Bg Color</td><td>:</td><td><select id='sepcBgColor' name='sepcBgColor' onchange='return chngeParBgColor()' style='width:120px'><option>fe996b</option><option>fe896b</option></select></tr><tr height='5px'></tr><tr><td>Bg Image</td><td>:</td><td><form name='parentImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='sepcBgImg' id='sepcBgImg' onchange='return ParntBgImgURL(this)'/></form><input type='hidden' name='pBgImgName' id='pBgImgName' value='testimg' /></td></tr></table>");
-	
+	*/
+	//$( "#specfcatnDiv" ).html( "<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Name</td><td>:</td><td><input type='text' name='sepcName' id='sepcName' onchange='return chngeParSpec()' value='test'/></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='sepcWdth' id='sepcWdth' value='"+parentWdth+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='sepcHght' id='sepcHght' value='"+parentHght+"'/></td></tr><tr height='5px'></tr><tr><td>Bg Color</td><td>:</td><td><select id='sepcBgColor' name='sepcBgColor' onchange='return chngeParBgColor()' style='width:120px'><option>fe996b</option><option>fe896b</option></select></tr><tr height='5px'></tr><tr><td>Bg Image</td><td>:</td><td><form name='parentImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='sepcBgImg' id='sepcBgImg' onchange='return ParntBgImgURL(this)'/></form><input type='hidden' name='pBgImgName' id='pBgImgName' value='testimg' /></td></tr></table>");
+	$( "#specfcatnDiv" ).html( "<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Name</td><td>:</td><td><input type='text' name='sepcName' id='sepcName' onchange='return chngeParSpec()' value='test'/></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='sepcWdth' id='sepcWdth' value='"+parentWdth+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='sepcHght' id='sepcHght' value='"+parentHght+"'/></td></tr><tr height='5px'></tr><tr height='5px'></tr><tr><td>Bg Image</td><td>:</td><td><form name='parentImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='sepcBgImg' id='sepcBgImg' onchange='return ParntBgImgURL(this)'/></form><input type='hidden' name='pBgImgName' id='pBgImgName' value='testimg' /></td></tr></table>");
 	// Save parent data to the current session's store
 	sessionStorage.setItem("parentName", parentName);
 	sessionStorage.setItem("pBgImgName", pBgImgName);
 	sessionStorage.setItem("parentWdth", parentWdth);
 	sessionStorage.setItem("parentHght", parentHght);
-	sessionStorage.setItem("parentBgColor", rgb);
+	//sessionStorage.setItem("parentBgColor", rgb);
 
 }
 /**###############################Change Parent Bg-Color###############################**/
@@ -640,30 +643,31 @@ function chngeParBgColor(){
 function ParntBgImgURL(upload_field) { 
 	if (upload_field.files && upload_field.files[0]) {
 		var reader = new FileReader();
-		reader.onload = function (e) { 
-			$('#frame').css("background","url('"+e.target.result+"')no-repeat");
-			$('#frame').css("background-size","cover");
-		};
-		reader.readAsDataURL(upload_field.files[0]);
-		
-		sessionStorage.setItem("pBgImgName", e.target.result);
+		var re_text = /\.jpg|\.gif|\.jpeg/i;
+		var filename = upload_field.value;
+		if (filename.search(re_text) == -1) {
+			alert("File should be either jpg or gif or jpeg");
+			/*var bColor  = $('#sepcBgColor').val();
+			$("#frame").css("background",bColor);*/
+			return false;
+		}
+		else
+		{
+			reader.onload = function (e) { 
+				$('#frame').css("background","url('"+e.target.result+"') no-repeat");
+				$('#frame').css("background-size","cover");
+					
+				/*---------------------------------------------- Upload Image To Server Script --------------------------------*/
+				upload_field.form.action = 'uploadParentImg.php';
+				upload_field.form.target = 'upload_iframe';
+				upload_field.form.submit();
+				upload_field.form.action = '';
+				upload_field.form.target = '';
+				sessionStorage.setItem("pBgImgName", filename);
+			};
+			reader.readAsDataURL(upload_field.files[0]);
+		}
 	}
-/*---------------------------------------------- Upload Image To Server Script --------------------------------*/
-	var re_text = /\.jpg|\.gif|\.jpeg/i;
-	var filename = upload_field.value;
-	if (filename.search(re_text) == -1) {
-		alert("File should be either jpg or gif or jpeg");
-		//upload_field.form.reset();
-		var bColor		=	$('#sepcBgColor').val();
-		$("#frame").css("background",bColor);
-		return false;
-	}
-	upload_field.form.action = 'uploadParentImg.php';
-	upload_field.form.target = 'upload_iframe';
-	upload_field.form.submit();
-	upload_field.form.action = '';
-	upload_field.form.target = '';
-	document.getElementById('pBgImgName').value = filename;
 }
 
 /**###############################Displays Parent Specifications###############################**/
@@ -732,7 +736,7 @@ function getChildSpecifications(counter){
 	var corData	=	("(x1,y1) => "+insideX1+","+insideY1 +" || (x2,y1)==>" +insideX2+","+insideY1 +" || (x1,y2)==>" +insideX1+","+insideY2 +" || (x2,y2)==>" +insideX2+","+insideY2);
 	
 	if(childType == 1){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+")'>I</td><td width='2px'></td><td width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+")' >U</td><td width='2px'></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td id='fontStyle"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+",1)'>I</td><td width='2px'></td><td id='textDecor"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+",1)' >U</td><td width='2px'></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 		
 		//Displays the values changed for an element
 		showTextDetails(counter);
@@ -740,15 +744,15 @@ function getChildSpecifications(counter){
 	
 	//---------------------------------------------------------------------------- Image Child Type -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	if(childType == 2){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldImg' id='chldImg' onchange='return ChldBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldImg' id='chldImg' onchange='return ChldBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 	}
 	//--------------------------------------------------------------------------------- Video Child Type ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	if(childType == 3){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childVdoFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='childVdoPath' id='childVdoPath' onchange='return changeChildVdo(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childVdoFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='childVdoPath' id='childVdoPath' onchange='return changeChildVdo(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 	}
 	
 	if(childType == 4){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications<input type='hidden' name='chldCnt' id='chldCnt' value='testChild'></td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='text' name='childRefLink"+counter+"' id='childRefLink"+counter+"' value='' onchange='return chngChldSpec()'/></td></tr></table>");
 	}
 	
 	//Getting Child Details on child dropped
@@ -810,7 +814,6 @@ function changeFntWght(cnt,flag){
 	
 	var weightVal = $("#clonediv"+cnt).css('font-weight');
 	var clickStatus = $("#fontWeight"+cnt).attr('class');
-	//alert(clickStatus);
 	if(flag == 1){
 		if(clickStatus == 'unclicked'){
 			$("#clonediv"+cnt).css('font-weight','normal');
@@ -830,20 +833,45 @@ function changeFntWght(cnt,flag){
 	
 }
 
-function changeFntStyle(cnt){
+function changeFntStyle(cnt,flag){
 	
-	$("#clonediv"+cnt).css('font-style','italic');
 	var italicVal = $("#clonediv"+cnt).css('font-style');
+	var clickStatus = $("#fontStyle"+cnt).attr('class');
+	if(flag == 1){
+		if(clickStatus == 'unclicked'){
+			$("#clonediv"+cnt).css('font-style','normal');
+			$("#fontStyle"+cnt).removeClass('unclicked');
+			$("#fontStyle"+cnt).addClass('clicked');
+		}
+		if(clickStatus == 'clicked'){
+			$("#clonediv"+cnt).css('font-style','italic');
+			$("#fontStyle"+cnt).addClass('unclicked');
+			$("#fontStyle"+cnt).removeClass ('clicked');
+		}
+	}
 	// Saving textbox text size for a particular child
 	sessionStorage.setItem("#chldFontStyle"+cnt, italicVal);
 	
 	return italicVal;
 }
 
-function changeTxtDecor(cnt){
+function changeTxtDecor(cnt,flag){
 	
-	$("#clonediv"+cnt).css('text-decoration','underline');
 	var decorVal = $("#clonediv"+cnt).css('text-decoration');
+	
+	var clickStatus = $("#textDecor"+cnt).attr('class');
+	if(flag == 1){
+		if(clickStatus == 'unclicked'){
+			$("#clonediv"+cnt).css('text-decoration','none');
+			$("#textDecor"+cnt).removeClass('unclicked');
+			$("#textDecor"+cnt).addClass('clicked');
+		}
+		if(clickStatus == 'clicked'){
+			$("#clonediv"+cnt).css('text-decoration','underline');
+			$("#textDecor"+cnt).addClass('unclicked');
+			$("#textDecor"+cnt).removeClass ('clicked');
+		}
+	}
 	// Saving textbox text size for a particular child
 	sessionStorage.setItem("#chldTxtDecor"+cnt, decorVal);
 	
@@ -911,11 +939,11 @@ function slideSaveCall()
 	var arrLen = childArr.length;
 	
 	for(var i=0;i<arrLen;i++){
-		var childId 	= childArr[i];		
+		var childId 	= childArr[i];
+		alert(childArr[i]);		
 		var counter 	= childId.match(/\d+$/)[0];
 		var childName 	= 'child'+(i+1);
 		var childWidth 	= sessionStorage.getItem("width"+(i+1));
-		alert(childWidth);
 		var childHeight = sessionStorage.getItem("height"+(i+1));
 		var childXcoord = sessionStorage.getItem("xcoord"+(i+1));
 		var childYcoord	= sessionStorage.getItem("ycoord"+(i+1));
@@ -969,6 +997,21 @@ function delChild(childType,chldCnt)
 {
 	var d 		= 	document.getElementById('frame');
 	var chlddiv = 	document.getElementById('clonediv'+chldCnt);
+	
+	//sessionStorage.removeItem(chldCnt);
+	/*sessionStorage.removeItem("height"+chldCnt);
+	sessionStorage.removeItem("xcoord"+chldCnt);
+	sessionStorage.removeItem("ycoord"+chldCnt);
+	sessionStorage.removeItem("#chldTxt"+chldCnt);
+	sessionStorage.removeItem("#chldTxtClr"+chldCnt);
+	sessionStorage.removeItem("#chldTxtSize"+chldCnt);
+	sessionStorage.removeItem("#chldFontWeight"+chldCnt);
+	sessionStorage.removeItem("#chldFontStyle"+chldCnt);
+	sessionStorage.removeItem("#chldTxtDecor"+chldCnt);
+	sessionStorage.removeItem("chldImgName"+chldCnt);
+	sessionStorage.removeItem("chldVdoName"+chldCnt);
+	sessionStorage.removeItem("childType"+chldCnt);*/
+	
 	d.removeChild(chlddiv);
 	/*var dataStrng	=	'chldCnt='+chldCnt;
 	$.ajax({

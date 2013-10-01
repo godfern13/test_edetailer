@@ -64,6 +64,8 @@
 					
 					$("#chldImg"+counter).attr({width: wi});
 					$("#chldImg"+counter).attr({height: hi});
+					$("#chldRefImg"+counter).attr({width: wi});
+					$("#chldRefImg"+counter).attr({height: hi});
 				};
 				if(clicked == true){
 					dragresize.ondragend 	= function(isResize) {

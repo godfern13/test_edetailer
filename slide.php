@@ -97,7 +97,7 @@ $( "#resizable" ).resizable({ handles: "n, e, s, w" });
 								<div id="drag1" class="drag"><p class="textData">Text</p></div>
 								<div id="drag2" class="drag"><span class="imgData">Image</span></div>
 								<div id="drag3" class="drag"><span class="vdoData">Video</span></div>
-								<div id="drag4" class="drag">Reference</div>
+								<div id="drag4" class="drag"><span class="imgRefData">Reference</span></div>
 							</div>			
 						</div>
 					</div>
