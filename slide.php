@@ -1,19 +1,10 @@
 <?php
-	/*require_once("classes/csGeneral.php");
-	require_once "library/dbcon.php";
 	require_once "library/functions.php";
 	sessionCheck();
-	//session_start();
-	include("classes/classes.php");
-	
-	$slideId = base64_decode($_GET['id']);	
-	
+	$slideId 		= 	base64_decode($_GET['id']);	
 	$contentCnt		=	$_SESSION['contentCnt'];
-	$addParentObj 	=   unserialize($_SESSION['contentObject'.$contentCnt]);
-	$parentCount	=	$addParentObj->getParentCount();
-	$addParentObj->addParents($parentCount);
-	$addParentObj		=	new parentClass();
-	$_SESSION['parentObject'.$parentCount] = serialize($addParentObj);*/
+	$upload_dir 	= 	'images/'.$_SESSION['mainPresntnName'].'/child/';
+	//echo "===".$upload_dir2	=	preg_replace('/\s+/','',$upload_dir);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -33,7 +24,6 @@
 	</script>
 	
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-	<!--<link rel="stylesheet" type="text/css" href="css/framework.css" media="all" />-->
 	<link href="css/general.css" type="text/css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/resize.css" media="all" />
 	<style>
@@ -49,18 +39,10 @@
 		background: #ccc;
 		}	*/
 	</style>
-	 <script>
-/*$(function() {
-$( "#resizable" ).resizable({ handles: "n, e, s, w" });
-});*/
-</script>
+	 
 	<script type="text/javascript" src="script/slide.js"></script>
 	<script type="text/javascript" src="script/dragresize.js"></script>
 	<script type="text/javascript" src="script/resize.js"></script>
-	<s
-	<!--cript type="text/javascript" src="jscolor/jscolor.js"></script>	
-	<script type="text/javascript" src="script/hide.js"></script>-->
-	
 </head>
 	<body>
 		<div id="wrapper">
