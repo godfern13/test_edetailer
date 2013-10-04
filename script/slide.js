@@ -38,7 +38,7 @@ $(document).ready(function(){
 	/*-------------------------------------- function to drag an element -------------------------------------*/
 	$(".drag").draggable({
 		helper:'clone',
-		containment: 'frame',
+		containment: '#frame',
 		/*--------------------------------------- first time drag -----------------------------------------------*/
 		stop:function(ev, ui) { 
 			$(this).css("z-index", zindexval); 
@@ -48,13 +48,17 @@ $(document).ready(function(){
 			else if(ui.helper.attr('id') == 'drag4'){ var childType=4;}//References
 			
 			var pos=$(ui.helper).offset();
-			objName = "#clonediv"+counter
+			objName = "#clonediv"+counter;
+			//************************************** ChangeMahadev 03-10-2013 *********************************//
+			if(pos.left > '722.5'){pos.left = '722.5px'}
+			if(pos.top > '614'){pos.top = '615px'}
+			//*************************************** CHANGE ENDS *****************************************//
 			$(objName).css({"left":pos.left,"top":pos.top});
 			$(objName).removeClass("drag");
 			
 			/*------------------------------------------- drag element within the frame --------------------------------*/
 			$(objName).draggable({
-				containment: 'parent',
+				containment: '#frame',
 				stop:function(ev, ui) {  
 					var pos=$(ui.helper).offset();
 					console.log($(this).attr("id"));
@@ -66,7 +70,7 @@ $(document).ready(function(){
 			});//.resizable({ handles: "n, e, s, w" });
 			//$(objName).resizable({ handles: "n, e, s, w" });
 			/*----------------------------------------- Function To Get Cordinates ----------------------------------*/
-				//var cordData = calCordinates(parentX,parentY,counter,childType);
+				var cordData = calCordinates(parentX,parentY,counter,childType);
 		}
 	});
 	/*------------------------------------------ drop an element function -----------------------------------------------*/
@@ -244,36 +248,12 @@ $(document).ready(function(){
 	});
 }*/
 /*------------------------------------ OnChange Function ------------------------------------------------*/
-/*function chngeParSpec()
+function chngeParSpec()
 {
-	var offset2 = $("#frame").offset();
-	var w = $(window);
-	var parentX = 	(offset2.left-w.scrollLeft());
-	var parentY	=	(offset2.top-w.scrollTop());
-	
-	$('#specLoader').show();
-	var bColor		=	$('#sepcBgColor').val();
-	var parentWdth	=	$("#sepcWdth").val();
-	var parentHght	=	$("#sepcHght").val();
-	var parentName	=	$("#sepcName").val();
-	var pBgImgName	=	$("#pBgImgName").val();
-	if(pBgImgName != ""){ $('#frame').css("background","url('images/parent/"+pBgImgName+"')no-repeat"); }
-	else{$("#frame").css("background",'#'+bColor);}
-	
-	var dataString	=	'parentWdth='+parentWdth+'&parentHght='+parentHght+'&parentBgClr='+bColor+'&parentName='+parentName+'&pBgImgName='+pBgImgName+'&parentX='+parentX+'&parentY='+parentY;
-	$.ajax({
-		type: "POST",
-		url: "Ajax/addParSpec.php",
-		cache: false,
-		data: dataString,
-		success: function(data) { 
-			$('#specfcatnDiv').html(data);
-			$('#specLoader').hide();
-			$('#sepcWdth').attr("disabled", true);
-			$('#sepcHght').attr("disabled", true);
-		}
-	});
-}*/
+	var SesParNme	=	$('input#sepcName').val();
+	document.getElementById('paentName').value = SesParNme;
+}
+
 /*------------------------------------- On click On Frame Function ------------------------------*/
 /*function showParSpec()
 {
@@ -315,12 +295,9 @@ function calCordinates(parentX,parentY,counter,childType)
 	var	insideY2	=	parseFloat(insideY1)+parseFloat(height);
 	var corData	=	("(x1,y1) => "+insideX1+","+insideY1 +" || (x2,y1)==>" +insideX2+","+insideY1 +" || (x1,y2)==>" +insideX1+","+insideY2 +" || (x2,y2)==>" +insideX2+","+insideY2);
 	$("#div_id").data("data",{pX:parentX,pY:parentY,cX:insideX1,cY:insideY1,cW:width,cH:height});
-	//addChildSpec(width,height,counter,insideX1,insideY1,childType);
-	
 	$("#chldImg"+counter).attr({width: width});
 	$("#chldImg"+counter).attr({height: height});
-	return corData;
-	
+	getChildSpecifications(counter);
 }
 /*----------------------------------------- Add Child Specification ----------------------------------------------*/
 /*function addChildSpec(childWdth,childHeght,counter,chldX,chldY,childType)
@@ -368,10 +345,8 @@ function chngChldSpec(chldCunt,childType)
 		$('#chldRefImg'+chldCunt).css("height",childHeght);
 	}
 	
-	var childX			=	parseFloat($('input#childX').val());
-	var childY			=	parseFloat($('input#childY').val());
-	
-	addChildSpec(childWdth,childHeght,chldCunt,childX,childY,childType);
+	sessionStorage.getItem("width"+chldCunt,childWdth);
+	sessionStorage.getItem("height"+chldCunt,childHeght);
 }
 /*------------------------------------ OnClick of Child Div function --------------------------------------*/
 /*function showChildSpec(counter)
@@ -606,9 +581,9 @@ function getParentSpec(){
 	var parentX = 	(offset2.left-w.scrollLeft());
 	var parentY	=	(offset2.top-w.scrollTop());
 	
+	var parentName 		=	document.getElementById('paentName').value;
 	var parentWdth	=	$("#frame").width();
 	var parentHght	=	$("#frame").height();
-	var parentName	=	$("#sepcName").val();
 	var pBgImgName	=	$("#pBgImgName").val();
 	
 	/*var rgb	=	$("#frame").css("background-color");
@@ -761,12 +736,11 @@ function getChildSpecifications(counter){
 	}
 	//--------------------------------------------------------------------------------- Video Child Type ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 	if(childType == 3){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childVdoFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='childVdoPath' id='childVdoPath' onchange='return changeChildVdo(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Video</td><td>:</td><td><form name='childVdoFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='childVdoPath' id='childVdoPath' onchange='return changeChildVdo(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 	}
 	var refText = "";
 	if(childType == 4){
-		//$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='hidden' id='no' value='1'><input type='text' name='childRefText1"+counter+"' id='childRefText1-"+counter+"' class='refTextbox' value='"+refText+"' onchange='chngRefText("+counter+")'/><span  value='' onclick='addRef("+counter+")' class='addBtn'></span><span  value='' onclick='delRef("+counter+")' class='delBtn'></span><span id='allRef'></span></td></tr></table>");
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='hidden' id='no' value='1'><span  value='' onclick='addRef("+counter+")' class='addBtn'></span><span  value='' onclick='delRef("+counter+")' class='delBtn'></span><span id='allRef'></span></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"' readonly/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='hidden' id='no' value='1'><span  value='' onclick='addRef("+counter+")' class='addBtn'></span><span  value='' onclick='delRef("+counter+")' class='delBtn'></span><span id='allRef'></span></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 		showRefDetails(counter);
 	}
 	
@@ -1062,6 +1036,16 @@ function slideSaveCall()
 	var	mainArr			= [];
 	var childArr 		= [];
 	
+	var parentName 	= 	sessionStorage.getItem("parentName");
+	var parentWdth 	= 	sessionStorage.getItem("parentWdth");
+	var parentHght 	= 	sessionStorage.getItem("parentHght");
+	var pBgImgName	= 	sessionStorage.getItem("pBgImgName");
+	var parentX		= 	sessionStorage.getItem("parentX");
+	var parentY		= 	sessionStorage.getItem("parentY");
+		
+	wrappedParntArr	=	{'parntName':parentName,'parntWdth':parentWdth,'parntHght':parentHght,'parntBgImg':pBgImgName,'parentX':parentX,'parentY':parentY}
+	mainArr.push(wrappedParntArr);
+	
 	// Get Parent data
 	var parentName 		= sessionStorage.getItem("parentName");
 	var parentWdth 		= sessionStorage.getItem("parentWdth");
@@ -1079,29 +1063,20 @@ function slideSaveCall()
 		//alert(childArr[i]);		
 		var counter 	= childId.match(/\d+$/)[0];
 		var childName 	= 'child'+(i+1);
-		var childWidth 	= sessionStorage.getItem("width"+(i+1));
-		var childHeight = sessionStorage.getItem("height"+(i+1));
-		var childXcoord = sessionStorage.getItem("xcoord"+(i+1));
-		var childYcoord	= sessionStorage.getItem("ycoord"+(i+1));
-		var childText 	= sessionStorage.getItem("#chldTxt"+(i+1));
-		var txtColor	= sessionStorage.getItem("#chldTxtClr"+(i+1));
-		var txtSize 	= sessionStorage.getItem("#chldTxtSize"+(i+1));
-		var fontWeight 	= sessionStorage.getItem("#chldFontWeight"+(i+1));
-		var fontStyle 	= sessionStorage.getItem("#chldFontStyle"+(i+1));
-		var txtDecor 	= sessionStorage.getItem("#chldTxtDecor"+(i+1));
-		
-		var ChldimgName 	= 	sessionStorage.getItem("chldImgName"+(i+1));
-		var ChldVdoName 	= 	sessionStorage.getItem("chldVdoName"+(i+1));
-		var childType		=	sessionStorage.getItem("childType"+(i+1));
-		
-		var refarr = $('#clonediv'+counter).children('.refTextClass').each(function(){$(this).attr('id');});
-		var refLen = refarr.length;
-		var ref = [];
-		for(var i =1 ;i<=refLen; i++){
-			ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
-		}
-		
-		//"childRefLink"+num+'-'+cnt
+		var childWidth 	= sessionStorage.getItem("width"+counter);
+		var childHeight = sessionStorage.getItem("height"+counter);
+		var childXcoord = sessionStorage.getItem("xcoord"+counter);
+		var childYcoord	= sessionStorage.getItem("ycoord"+counter);
+		var childText 	= sessionStorage.getItem("#chldTxt"+counter);
+		var txtColor	= sessionStorage.getItem("#chldTxtClr"+counter);
+		var txtSize 	= sessionStorage.getItem("#chldTxtSize"+counter);
+		var fontWeight 	= sessionStorage.getItem("#chldFontWeight"+counter);
+		var fontStyle 	= sessionStorage.getItem("#chldFontStyle"+counter);
+		var txtDecor 	= sessionStorage.getItem("#chldTxtDecor"+counter);
+			
+		var ChldimgName 	= 	sessionStorage.getItem("chldImgName"+counter);
+		var ChldVdoName 	= 	sessionStorage.getItem("chldVdoName"+counter);
+		var childType		=	sessionStorage.getItem("childType"+counter);
 		//-----------------------------------------  Text Child --------------------------------------------------------------------------//
 		if(childType == 1)
 		{
@@ -1120,23 +1095,29 @@ function slideSaveCall()
 		//-----------------------------------------  References Child --------------------------------------------------------------------------//
 		if(childType == 4)
 		{
+			var refarr = $('#clonediv'+counter).children('.refTextClass').each(function(){$(this).attr('id');});
+			var refLen = refarr.length;
+			var ref = [];
+			for(var i =1 ;i<=refLen; i++){
+				ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
+			}
 			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldVdoName,'references':ref};
 		}
 		
 		mainArr.push(wrappedChildArr);
 	}
 	
-	//alert(mainArr);
+	
 	
    var dataStrng = JSON.stringify(mainArr);
-   
+   alert(dataStrng);return false;
 	$.ajax({
 		type: "POST",
 		url: "Ajax/saveSlideProcess.php",
 		cache: false,
 		data:{data : dataStrng},
 		success: function(data) { 
-			//setTimeout("window.location='add_slide.php?id="+btoa(data)+"'",300);
+			setTimeout("window.location='add_slide.php?id="+btoa(data)+"'",300);
 		}
 	});
 	}
@@ -1149,8 +1130,7 @@ function delChild(childType,chldCnt)
 	var d 		= 	document.getElementById('frame');
 	var chlddiv = 	document.getElementById('clonediv'+chldCnt);
 	
-	//sessionStorage.removeItem(chldCnt);
-	/*sessionStorage.removeItem("height"+chldCnt);
+	sessionStorage.removeItem("height"+chldCnt);
 	sessionStorage.removeItem("xcoord"+chldCnt);
 	sessionStorage.removeItem("ycoord"+chldCnt);
 	sessionStorage.removeItem("#chldTxt"+chldCnt);
@@ -1161,17 +1141,8 @@ function delChild(childType,chldCnt)
 	sessionStorage.removeItem("#chldTxtDecor"+chldCnt);
 	sessionStorage.removeItem("chldImgName"+chldCnt);
 	sessionStorage.removeItem("chldVdoName"+chldCnt);
-	sessionStorage.removeItem("childType"+chldCnt);*/
+	sessionStorage.removeItem("childType"+chldCnt);
 	
 	d.removeChild(chlddiv);
-	/*var dataStrng	=	'chldCnt='+chldCnt;
-	$.ajax({
-		type: "POST",
-		url: "Ajax/delChildObj.php",
-		cache: false,
-		data:dataStrng,
-		success: function(data) { 
-			showParSpec();
-		}
-	});*/
+	getParentSpec();
 }
