@@ -60,9 +60,9 @@
 									<p id="sndbk" class="backBtn">SEND TO BACK</p>
 									<p id="bngfrnt" class="frntBtn">BRING TO FRONT</p>	
 								</li>
-								<li style="float:right;width:100px; margin: 22px 0 0;">
+								<!--<li style="float:right;width:100px; margin: 22px 0 0;">
 									<p id="hdToolKit" class="toolBtn">Hide</p>
-								</li>								
+								</li>-->								
 							</ul>
 						</div>
 						<div id="createArea">

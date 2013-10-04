@@ -106,6 +106,18 @@ $(document).ready(function(){
 				}
 				if(childType ==4){
 					$("#clonediv"+counter).addClass("ref");
+					var refText = '';
+					//Creation of hidden field for Reference
+					var hiddenRefText = document.createElement("input");
+					//Assign different attributes to the element.
+					hiddenRefText.setAttribute("type", 'hidden');
+					hiddenRefText.setAttribute("id", 'childRefLink1-'+counter);
+					hiddenRefText.setAttribute("class", 'refTextClass');
+					hiddenRefText.setAttribute("name", 'childRefLink1-'+counter);
+					hiddenRefText.setAttribute("value", refText);
+					
+					var refBtn = document.getElementById('clonediv'+counter);
+					refBtn.appendChild(hiddenRefText);
 				}				
 				$(objName).bind("click", function (event) {
 					
@@ -172,7 +184,7 @@ $(document).ready(function(){
 	*******************Hiding/Showing the tool box******************
 	****************************************************************/
 	
-	var shwStatus = false;
+	/*var shwStatus = false;
 	$('#hdToolKit').click(function(event){
 		if(shwStatus == false){
 			$('#hdToolKit').text('show');
@@ -187,7 +199,8 @@ $(document).ready(function(){
 		}
 		$('#rightDiv').toggle( "slide",{ direction: "right" });
 		event.stopPropagation();
-	});
+	});*/
+	$( "#rightDiv" ).draggable({ containment: "window" });
 	
 });
 
@@ -750,9 +763,11 @@ function getChildSpecifications(counter){
 	if(childType == 3){
 		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Image</td><td>:</td><td><form name='childVdoFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='childVdoPath' id='childVdoPath' onchange='return changeChildVdo(this,"+childType+","+counter+")'/></form></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
 	}
-	
+	var refText = "";
 	if(childType == 4){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='text' name='childRefLink"+counter+"' id='childRefLink"+counter+"' value='' onchange='return chngChldSpec()'/></td></tr></table>");
+		//$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='hidden' id='no' value='1'><input type='text' name='childRefText1"+counter+"' id='childRefText1-"+counter+"' class='refTextbox' value='"+refText+"' onchange='chngRefText("+counter+")'/><span  value='' onclick='addRef("+counter+")' class='addBtn'></span><span  value='' onclick='delRef("+counter+")' class='delBtn'></span><span id='allRef'></span></td></tr></table>");
+		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td style='width:120px;text-align:left'>Bg Image</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><form name='childRefImgFrm' method='post' autocomplete='off' enctype='multipart/form-data'><input type='file' name='chldRefBgImg' id='chldRefBgImg' onchange='return ChldRefBgImgURL(this,"+childType+","+counter+")'/></form></td></tr><tr><td style='width:120px;text-align:left'>Link</td><td style='width:10px;text-align:left'>:</td><td style='width:150px;text-align:left'><input type='hidden' id='no' value='1'><span  value='' onclick='addRef("+counter+")' class='addBtn'></span><span  value='' onclick='delRef("+counter+")' class='delBtn'></span><span id='allRef'></span></td></tr></table>");
+		showRefDetails(counter);
 	}
 	
 	//Getting Child Details on child dropped
@@ -777,6 +792,7 @@ function getChildSpecifications(counter){
 	sessionStorage.setItem("ycoord"+counter, insideY1);
 }
 
+/*-----------------------------------------------------TEXTBOX FUNCTIONS---------------------------------------------------------*/
 function changeText(cnt){
 	
 	//alert(cnt);
@@ -881,6 +897,7 @@ function changeTxtDecor(cnt,flag){
 
 function showTextDetails(cnt){
 	
+	
 	var textContent = $("#clonediv"+cnt).text();
 	var textColor = $("#clonediv"+cnt).css('color');
 	var textSize = $("#clonediv"+cnt).css('font-size');
@@ -910,9 +927,128 @@ function showTextDetails(cnt){
 		$("#chldTxtSize"+cnt).val(decorVal);
 	}*/
 }
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
+
+/*-------------------------------------------------REFERENCE FUNTIONS----------------------------------------------------------*/
+function chngRefText(cnt){
+	
+	var refarr = $('#clonediv'+cnt).children('.refTextClass').each(function(){$(this).attr('id');});
+	var refLen = refarr.length;
+	
+	var num = refLen;
+	var refText = document.getElementById('childRefText'+num+'-'+cnt).value;
+	$('#childRefLink'+num+'-'+cnt).val(refText);
+	
+	// Saving textbox text size for a particular child
+	sessionStorage.setItem("childRefLink"+num+'-'+cnt, refText);
+}
 
 
+function addRef(cnt)
+	{
+		var refarr = $('#clonediv'+cnt).children('.refTextClass').each(function(){$(this).attr('id');});
+		var refLen = refarr.length;
+		
+		var num = refLen;
+		var refVal = $('#childRefText'+num+'-'+cnt).val();		
+		if(refVal != ''){
+			num = parseInt(num) + 1;
+			document.getElementById('no').value = num;
+			$('.delBtn').show();
+			$('.delBtn').css("display","inline-block");
+			
+			//Creation of Reference textbox
+			var refText = document.createElement("input");
+			//Assign different attributes to the element.
+			refText.setAttribute("type", 'text');
+			refText.setAttribute("id", 'childRefText'+num+'-'+cnt);
+			refText.setAttribute("name", 'childRefText'+num+'-'+cnt);
+			refText.setAttribute("class", 'refTextbox');
+			
+			refText.setAttribute("onkeyup",'chngRefText('+cnt+')');
+			
+			var stick = document.getElementById("allRef");
+			stick.appendChild(refText);
+			
+			//Creation of hidden field for Reference
+			var hiddenRefText = document.createElement("input");
+			//Assign different attributes to the element.
+			hiddenRefText.setAttribute("type", 'hidden');
+			hiddenRefText.setAttribute("id", 'childRefLink'+num+'-'+cnt);
+			hiddenRefText.setAttribute("class", 'refTextClass');
+			hiddenRefText.setAttribute("name", 'childRefLink'+num+'-'+cnt);
+			hiddenRefText.setAttribute("value", '');
+			
+			var refBtn = document.getElementById('clonediv'+cnt);
+			refBtn.appendChild(hiddenRefText);
+			
+		}
+		else{
+			//alert('empty');
+		}
+	}
+	
+function delRef(cnt){
 
+	var refarr = $('#clonediv'+cnt).children('.refTextClass').each(function(){$(this).attr('id');});
+	var refLen = refarr.length;
+	
+	var num = refLen;
+	if(num !=1){
+		$('#childRefText'+num+'-'+cnt).remove();
+		$('#childRefLink'+num+'-'+cnt).remove();
+		num = num - 1;
+		document.getElementById('no').value = num;
+		//sessionStorage.setItem("reference"+cnt, arr);
+	}
+	if(num ==1){
+		$('.delBtn').hide();
+	}
+}
+function showRefDetails(cnt){
+
+	var refarr = $('#clonediv'+cnt).children('.refTextClass').each(function(){$(this).attr('id');});
+											
+	var refLen = refarr.length;
+	
+	if(refLen > 1){
+		$('.delBtn').show();
+		$('.delBtn').css("display","inline-block");
+		
+		for(var i=1;i<=refLen;i++){
+			var refVal = $('#childRefLink'+i+'-'+cnt).val();
+			//Creation of Reference textbox
+			var refText = document.createElement("input");
+			//Assign different attributes to the element.
+			refText.setAttribute("type", 'text');
+			refText.setAttribute("id", 'childRefText'+i+'-'+cnt);
+			refText.setAttribute("name", 'childRefText'+i+'-'+cnt);
+			refText.setAttribute("class", 'refTextbox');
+			refText.setAttribute("value", refVal);
+			
+			refText.setAttribute("onkeyup",'chngRefText('+cnt+')');
+			
+			var stick = document.getElementById("allRef");
+			//alert(stick);
+			stick.appendChild(refText);
+		}
+	}
+	else{
+		var refVal = $('#childRefLink'+refLen+'-'+cnt).val();
+		//Creation of Reference textbox
+		var refText = document.createElement("input");
+		//Assign different attributes to the element.
+		refText.setAttribute("type", 'text');
+		refText.setAttribute("id", 'childRefText'+refLen+'-'+cnt);
+		refText.setAttribute("name", 'childRefText'+refLen+'-'+cnt);
+		refText.setAttribute("class", 'refTextbox');
+		refText.setAttribute("value", refVal);
+		refText.setAttribute("onkeyup",'chngRefText('+cnt+')');
+		
+		var stick = document.getElementById("allRef");
+		stick.appendChild(refText);
+	}
+}
 /********************************************************************************************************************
 											SAVE SLIDE FUNCTION STARTS
 **********************************************************************************************************************/
@@ -940,7 +1076,7 @@ function slideSaveCall()
 	
 	for(var i=0;i<arrLen;i++){
 		var childId 	= childArr[i];
-		alert(childArr[i]);		
+		//alert(childArr[i]);		
 		var counter 	= childId.match(/\d+$/)[0];
 		var childName 	= 'child'+(i+1);
 		var childWidth 	= sessionStorage.getItem("width"+(i+1));
@@ -957,6 +1093,15 @@ function slideSaveCall()
 		var ChldimgName 	= 	sessionStorage.getItem("chldImgName"+(i+1));
 		var ChldVdoName 	= 	sessionStorage.getItem("chldVdoName"+(i+1));
 		var childType		=	sessionStorage.getItem("childType"+(i+1));
+		
+		var refarr = $('#clonediv'+counter).children('.refTextClass').each(function(){$(this).attr('id');});
+		var refLen = refarr.length;
+		var ref = [];
+		for(var i =1 ;i<=refLen; i++){
+			ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
+		}
+		
+		//"childRefLink"+num+'-'+cnt
 		//-----------------------------------------  Text Child --------------------------------------------------------------------------//
 		if(childType == 1)
 		{
@@ -972,6 +1117,12 @@ function slideSaveCall()
 		{
 			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldVdoName};
 		}
+		//-----------------------------------------  References Child --------------------------------------------------------------------------//
+		if(childType == 4)
+		{
+			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldVdoName,'references':ref};
+		}
+		
 		mainArr.push(wrappedChildArr);
 	}
 	

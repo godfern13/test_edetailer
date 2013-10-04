@@ -535,7 +535,9 @@ min-height: 400px;
 }
 
 #rightDiv{
-float:left;
+/*float:left;*/
+position:absolute;
+display:inline-block;
 margin:0 0 0;
 padding:0 0 0;
 width:300px;
@@ -548,7 +550,8 @@ float:left;
 margin:0 0 0;
 padding:0 0 0;
 width:299px;
-min-height: 350px;
+height: 350px;
+overflow-y:auto
 }
 
 #options{
@@ -584,6 +587,34 @@ width:80px;
 height: 40px;
 border:1px solid;
 cursor:move;
+}
+
+.refTextbox{
+float:left;
+padding:0;
+margin: 0 0 5px;
+height: 20px;
+}
+
+.addBtn{
+cursor: pointer;
+display: inline-block;
+height: 15px;
+margin: 0 0 0 5px;
+overflow: hidden;
+/*float: left;*/
+width: 15px;
+background:url("../images/add.png") no-repeat;
+}
+.delBtn{
+cursor: pointer;
+display: none;
+height: 15px;
+margin: 0 0 0 5px;
+overflow: hidden;
+position: relative;
+width: 15px;
+background:url("../images/remove.png") no-repeat;
 }
 
 /********************** Change 17/09/2013 START************************/

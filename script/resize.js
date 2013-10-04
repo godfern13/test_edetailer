@@ -26,7 +26,9 @@
 				$el.draggable( 'disable' );
 				$el.addClass('drsElement');
 				//$el.css({"cursor": "default","z-index":index});
-				
+				//var id 	= $el.attr('id');
+				//var counter 	= id.match(/\d+$/)[0];
+				//showRefDetails(counter);
 				$('.drsElement').click(function(e){
 					e.stopPropagation();
 					$('.selected').removeClass('selected');
