@@ -1110,8 +1110,7 @@ function slideSaveCall()
 	
 	
    var dataStrng = JSON.stringify(mainArr);
-   alert(dataStrng);return false;
-	$.ajax({
+   $.ajax({
 		type: "POST",
 		url: "Ajax/saveSlideProcess.php",
 		cache: false,
