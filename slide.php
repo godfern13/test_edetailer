@@ -3,6 +3,7 @@
 	sessionCheck();
 	$slideId 		= 	base64_decode($_GET['id']);	
 	$contentCnt		=	$_SESSION['contentCnt'];
+	/**** Store Parent Name ****************************/
 	$paentName		=	$_SESSION['ParntName'];
 	$upload_dir 	= 	'images/'.$_SESSION['mainPresntnName'].'/child/';
 ?>
