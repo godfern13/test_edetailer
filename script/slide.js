@@ -915,6 +915,8 @@ function chngRefText(cnt){
 	
 	// Saving textbox text size for a particular child
 	sessionStorage.setItem("childRefLink"+num+'-'+cnt, refText);
+	
+	sessionStorage.setItem("childRefCnt"+cnt, num);
 }
 
 
@@ -1095,12 +1097,18 @@ function slideSaveCall()
 		//-----------------------------------------  References Child --------------------------------------------------------------------------//
 		if(childType == 4)
 		{
-			var refarr = $('#clonediv'+counter).children('.refTextClass').each(function(){$(this).attr('id');});
+			/*var refarr = $('#clonediv'+counter).children('.refTextClass').each(function(){$(this).attr('id');});
 			var refLen = refarr.length;
 			var ref = [];
 			for(var i =1 ;i<=refLen; i++){
 				ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
+			}*/
+			var ref = [];
+			var childRefCnt = sessionStorage.getItem("childRefCnt"+counter);
+			for(var i =1 ;i<=childRefCnt; i++){
+				ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
 			}
+			
 			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldVdoName,'references':ref};
 		}
 		
@@ -1115,7 +1123,7 @@ function slideSaveCall()
 		url: "Ajax/saveSlideProcess.php",
 		cache: false,
 		data:{data : dataStrng},
-		success: function(data) { 
+		success: function(data) { alert(data)
 			setTimeout("window.location='add_slide.php?id="+btoa(data)+"'",300);
 		}
 	});
