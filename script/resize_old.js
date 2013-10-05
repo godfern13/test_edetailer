@@ -23,25 +23,12 @@
 			click:function(e){//alert('clicked');
 				//showChildSpec(1);
 				e.stopPropagation();
-				
-				if($el.hasClass( "text" )== true){
-					$el.addClass('drsElement');
-					$el.draggable( 'disable' );
-				}
-				
-				if($el.hasClass( "image" )==true){
-					$el.addClass('drsElement');
-					$el.draggable( 'disable' );
-				}
-				if($el.hasClass( "video" )==true){
-					$el.addClass('drsElement');
-					$el.draggable( 'disable' );
-				}
-				
-				if($el.hasClass( "ref" )==true){
-					$el.removeClass('drsElement');
-				}
-				
+				$el.draggable( 'disable' );
+				$el.addClass('drsElement');
+				//$el.css({"cursor": "default","z-index":index});
+				//var id 	= $el.attr('id');
+				//var counter 	= id.match(/\d+$/)[0];
+				//showRefDetails(counter);
 				$('.drsElement').click(function(e){
 					e.stopPropagation();
 					$('.selected').removeClass('selected');
@@ -53,9 +40,9 @@
 														minWidth: 50, 
 														minHeight: 50, 
 														minLeft: 186, 
-														minTop: 166, 
-														maxLeft: 1164, 
-														maxTop: 715 
+														minTop: 51, 
+														maxLeft: 833, 
+														Top: 200 
 														});
 				
 				dragresize.isElement = function(elm)

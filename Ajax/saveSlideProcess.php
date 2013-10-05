@@ -6,7 +6,8 @@
 	$jsonVal	=	$_POST['data'];
 	$result 	= 	json_decode($jsonVal, true);
 	$arrayCunt	=	count($result);
-	//print_r($result);
+	print_r($result);
+	
 	//---------------------------------------------- PARENT QUERY -------------------------------------------//
 	$table_name		= 	'parent';
 	$table_col		= 	'id';

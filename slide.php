@@ -53,7 +53,7 @@
 				<div id="container">
 					<div id="webFrameBody">
 						<div id="webFrameMenu">
-							<ul style="width:1095px">
+							<ul style="width:975px">
 								<li >								
 									<input type="image" name="saveSlide" id="saveSlide" src="images/sld_sv.png" onclick="return slideSaveCall()" title="SAVE SLIDE" style="width:35px;height:35px;"/>
 									<input type="hidden" id="prntId" name="prntId" value="<?echo $slideId?>">

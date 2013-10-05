@@ -489,7 +489,7 @@ display: inline-block;
 margin: 0 0 20px;
 min-height: 400px;
 padding: 0;
-width: 980px;
+width: 1100px;
 }
 
 #webFrameMenu{
@@ -497,7 +497,7 @@ background: none repeat scroll 0 0 #FFFFFF;
 margin: 0 0 0px;
 height: 40px;
 padding: 5px 0 0 0;
-width: 980px;
+width: 1100px;
 border-bottom:1px solid #F6F6F6;
 }
 
@@ -506,7 +506,7 @@ background: none repeat scroll 0 0 #FFFFFF;
 margin: 0 0 0;
 height: 40px;
 padding: 0 0 0 5px;
-width: 980px;
+width: 1100px;
 }
 
 #webFrameMenu ul li{
@@ -520,12 +520,12 @@ padding: 0;
 float:left;
 margin:0 0 0;
 padding:0 0 0;
-width:980px;
+width:800px;
 min-height: 400px;
 }
 
 #frame{
-	width:980px;
+	width:800px;
 	height:550px;
 	/*background:#185871;*/
 	background:url('../images/default_bg.jpg') no-repeat;
@@ -538,14 +538,11 @@ min-height: 400px;
 /*float:left;*/
 position:absolute;
 display:inline-block;
-right:184px;
 margin:0 0 0;
 padding:0 0 0;
 width:300px;
 min-height: 400px;
 background:#F6F6F6;
-cursor:all-scroll;
-z-index: 10000;
 }
 
 #specfcatnDiv{
@@ -597,10 +594,6 @@ float:left;
 padding:0;
 margin: 0 0 5px;
 height: 20px;
-}
-
-.ref{
-background:url('../images/default.jpg')no-repeat;
 }
 
 .addBtn{

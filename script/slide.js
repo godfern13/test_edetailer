@@ -14,13 +14,15 @@ $(document).ready(function(){
 	/********************************************************************
 	******************Getting the X and Y axis of the frame*************
 	********************************************************************/
-	var offset2 = $("#frame").offset();
-	var w = $(window);
-	var parentX = 	(offset2.left-w.scrollLeft());
-	var parentY	=	(offset2.top-w.scrollTop());
+	var offset2 	= $("#frame").offset();
+	var w 			= $(window);
+	var parentX 	= (offset2.left-w.scrollLeft());
+	var parentY		=(offset2.top-w.scrollTop());
+	var filename	= 'default_bg.jpg';
 	// Save data to the current session's store
 	sessionStorage.setItem("parentX", parentX);
 	sessionStorage.setItem("parentY", parentY);
+	sessionStorage.setItem("pBgImgName", filename);
 	/********************************************************************
 	********************************************************************
 	********************************************************************/
@@ -96,6 +98,7 @@ $(document).ready(function(){
 				$(objName).resize();
 				sessionStorage.setItem("#clonediv"+counter, "#clonediv"+counter);
 				sessionStorage.setItem("childType"+counter, childType);
+				//alert("childType"+counter);
 				
 				$(objName).css({'z-index':zindexval});
 				if(childType ==1){
@@ -110,6 +113,7 @@ $(document).ready(function(){
 				}
 				if(childType ==4){
 					$("#clonediv"+counter).addClass("ref");
+					var num = 1;
 					var refText = '';
 					//Creation of hidden field for Reference
 					var hiddenRefText = document.createElement("input");
@@ -122,6 +126,10 @@ $(document).ready(function(){
 					
 					var refBtn = document.getElementById('clonediv'+counter);
 					refBtn.appendChild(hiddenRefText);
+					
+					//Storing the 1st Reference link for the ref child
+					//sessionStorage.setItem("refChild1"+counter, "refChild1"+counter);
+					sessionStorage.setItem("refNo"+counter, num);
 				}				
 				$(objName).bind("click", function (event) {
 					
@@ -185,26 +193,9 @@ $(document).ready(function(){
 	});
 	
 	/***************************************************************
-	*******************Hiding/Showing the tool box******************
+	*******************Dragging the tool box******************
 	****************************************************************/
-	
-	/*var shwStatus = false;
-	$('#hdToolKit').click(function(event){
-		if(shwStatus == false){
-			$('#hdToolKit').text('show');
-			var frmWidth = $('#frame').css('width');
-			alert(frmWidth);
-			//$('#frame').css({'width':});299px
-			shwStatus = true;
-		}
-		else{
-			$('#hdToolKit').text('hide');
-			shwStatus = false;
-		}
-		$('#rightDiv').toggle( "slide",{ direction: "right" });
-		event.stopPropagation();
-	});*/
-	$( "#rightDiv" ).draggable({ containment: "window" });
+	$( "#rightDiv" ).draggable({ containment: "#wrapper" });
 	
 });
 
@@ -212,65 +203,12 @@ $(document).ready(function(){
 											PARENT FUNCTIONS START
 *********************************************************************************************************************/
 
-/*--------------------------------------------- Add Parent Specification Function ------------------------------------*/
-/*function addParentSpec()
-{ 
-	var offset2 = $("#frame").offset();
-	var w = $(window);
-	var parentX = 	(offset2.left-w.scrollLeft());
-	var parentY	=	(offset2.top-w.scrollTop());
-	
-	var parentWdth	=	$("#frame").width();
-	var parentHght	=	$("#frame").height();
-	var rgb	=	$("#frame").css("background-color");
-	
-	rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-    function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
-    }
-    var parentBgClr = hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
-
-	
-	var parentName	=	$("#sepcName").val();
-	var pBgImgName	=	$("#pBgImgName").val();
-	var dataString	=	'parentWdth='+parentWdth+'&parentHght='+parentHght+'&parentBgClr='+parentBgClr+'&parentName='+parentName+'&pBgImgName='+pBgImgName+'&parentX='+parentX+'&parentY='+parentY;
-	$.ajax({
-		type: "POST",
-		url: "Ajax/addParSpec.php",
-		cache: false,
-		data: dataString,
-		success: function(data) { 
-			$('#specfcatnDiv').html(data);
-			$('#specLoader').hide();
-			$('#sepcWdth').attr("disabled", true);
-			$('#sepcHght').attr("disabled", true);
-		}
-	});
-}*/
 /*------------------------------------ OnChange Function ------------------------------------------------*/
 function chngeParSpec()
 {
 	var SesParNme	=	$('input#sepcName').val();
 	document.getElementById('paentName').value = SesParNme;
 }
-
-/*------------------------------------- On click On Frame Function ------------------------------*/
-/*function showParSpec()
-{
-	//$('#frame').click( function(event) {
-		//if(event.target.id == 'frame')
-		//{
-			$.ajax({
-				type: "POST",
-				url: "Ajax/showParSpec.php",
-				cache: false,
-				success: function(data) { 
-					$('#specfcatnDiv').html(data);
-				}
-			});
-		//}
-	//});
-}*/
 
 /********************************************************************************************************************
 											PARENT FUNCTIONS ENDS
@@ -299,31 +237,7 @@ function calCordinates(parentX,parentY,counter,childType)
 	$("#chldImg"+counter).attr({height: height});
 	getChildSpecifications(counter);
 }
-/*----------------------------------------- Add Child Specification ----------------------------------------------*/
-/*function addChildSpec(childWdth,childHeght,counter,chldX,chldY,childType)
-{ 
-	$('#specLoader').show();
-	var childImgPath	=	$('input#chldImgName'+counter).val();
-	var childText		=	$('textarea#chldTxt'+counter).val();
-	var childTextClr	=	$('select#chldTxtClr'+counter).val();
-	var childTextSize	=	$('select#chldTxtSize'+counter).val(); 
-	var childVdoPath	=	$('input#childVdoPath'+counter).val(); 
-	var childRefLink	=	$('input#childRefLink'+counter).val(); 
-	var childRefPath	=	$('input#chldRefBgImg'+counter).val(); 
-	var dataString		=	'childWdth='+childWdth+'&childHght='+childHeght+'&chldCnt='+counter+'&chldX='+chldX+'&chldY='+chldY+'&childType='+childType+'&childImgPath='+childImgPath+'&childText='+childText
-						+'&childTextClr='+childTextClr+'&childTextSze='+childTextSize+'&childVdoPath='+childVdoPath+'&childRefLink='+childRefLink+'&childRefPath='+childRefPath;
-	
-	$.ajax({
-		type: "POST",
-		url: "Ajax/addChldSpec.php",
-		cache: false,
-		data: dataString,
-		success: function(data) { 
-			$('#specfcatnDiv').html(data);
-			$('#specLoader').hide();
-		}
-	});
-}*/
+
 /*------------------------------------- On Change Function ----------------------------------------------*/
 function chngChldSpec(chldCunt,childType)
 {	
@@ -345,23 +259,12 @@ function chngChldSpec(chldCunt,childType)
 		$('#chldRefImg'+chldCunt).css("height",childHeght);
 	}
 	
+	
+	/******#####WHATS THIS ?######*******/
 	sessionStorage.getItem("width"+chldCunt,childWdth);
 	sessionStorage.getItem("height"+chldCunt,childHeght);
 }
-/*------------------------------------ OnClick of Child Div function --------------------------------------*/
-/*function showChildSpec(counter)
-{	
-	var dataStrng	=	'cunt='+counter;
-	$.ajax({
-		type: "POST",
-		url: "Ajax/showChldSpec.php",
-		cache: false,
-		data: dataStrng,
-		success: function(data) { 
-			$('#specfcatnDiv').html(data);
-		}
-	});
-}*/
+
 /*------------------------------------- Text Child Function -------------------------------------------*/
 function changeChildText(chldCunt,childType)
 {	
@@ -581,7 +484,7 @@ function getParentSpec(){
 	var parentX = 	(offset2.left-w.scrollLeft());
 	var parentY	=	(offset2.top-w.scrollTop());
 	
-	var parentName 		=	document.getElementById('paentName').value;
+	var parentName 	=	document.getElementById('paentName').value;
 	var parentWdth	=	$("#frame").width();
 	var parentHght	=	$("#frame").height();
 	var pBgImgName	=	$("#pBgImgName").val();
@@ -723,8 +626,67 @@ function getChildSpecifications(counter){
 	var	insideY2	=	parseFloat(insideY1)+parseFloat(height);
 	var corData	=	("(x1,y1) => "+insideX1+","+insideY1 +" || (x2,y1)==>" +insideX2+","+insideY1 +" || (x1,y2)==>" +insideX1+","+insideY2 +" || (x2,y2)==>" +insideX2+","+insideY2);
 	
+	//alert(childType);
 	if(childType == 1){
-		$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'><option value='red'>red</option><option value='green'>green</option></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'><option>12</option><option>16</option></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td id='fontStyle"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+",1)'>I</td><td width='2px'></td><td id='textDecor"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+",1)' >U</td><td width='2px'></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
+	
+	//creating an color array
+	var colorArray = 	{'F0F8FF':'AliceBlue ','FAEBD7':'AntiqueWhite ','00FFFF':'Aqua','7FFFD4':'Aquamarine','F0FFFF':'Azure','F5F5DC':'Beige',
+						 'FFE4C4':'Bisque','000000':'Black','FFEBCD':'BlanchedAlmond','0000FF':'Blue','8A2BE2':'BlueViolet',
+						 'A52A2A':'Brown','DEB887':'BurlyWood','5F9EA0':'CadetBlue','7FFF00':'Chartreuse','D2691E':'Chocolate',
+						 'FF7F50':'Coral','6495ED':'CornflowerBlue','FFF8DC':'Cornsilk','DC143C':'Crimson','00FFFF':'Cyan'
+						 ,'00008B':'DarkBlue','008B8B':'DarkCyan','B8860B':'DarkGoldenRod','A9A9A9':'DarkGray','006400':'DarkGreen',
+						 'BDB76B':'DarkKhaki','8B008B':'DarkMagenta','556B2F':'DarkOliveGreen','FF8C00':'DarkOrange',
+						 '9932CC':'DarkOrchid','8B0000':'DarkRed','E9967A':'DarkSalmon','8FBC8F':'DarkSeaGreen','483D8B':'DarkSlateBlue',
+						 '2F4F4F':'DarkSlateGray','00CED1':'DarkTurquoise','9400D3':'DarkViolet','FF1493':'DeepPink','00BFFF':'DeepSkyBlue',
+						 '696969':'DimGray','1E90FF':'DodgerBlue','B22222':'FireBrick','FFFAF0':'FloralWhite','228B22':'ForestGreen','FF00FF':'Fuchsia',
+						 'DCDCDC':'Gainsboro','F8F8FF':'GhostWhite','FFD700':'Gold','DAA520':'GoldenRod','808080':'Gray'
+						 ,'008000':'Green','ADFF2F':'GreenYellow','F0FFF0':'HoneyDew','FF69B4':'HotPink','CD5C5C':'IndianRed',
+						 '4B0082':'Indigo','FFFFF0':'Ivory','F0E68C':'Khaki','E6E6FA':'Lavender','FFF0F5':'LavenderBlush','7CFC00':'LawnGreen',
+						 'FFFACD':'LemonChiffon','ADD8E6':'LightBlue','F08080':'LightCoral','E0FFFF':'LightCyan'
+						 ,'FAFAD2':'LightGoldenRodYellow','D3D3D3':'LightGray','90EE90':'LightGreen','FFB6C1':'LightPink','FFA07A':'LightSalmon','20B2AA':'LightSeaGreen',
+						 '87CEFA':'LightSkyBlue','778899':'LightSlateGray','B0C4DE':'LightSteelBlue','FFFFE0':'LightYellow','00FF00':'Lime',
+						 '32CD32':'LimeGreen','FAF0E6':'Linen','FF00FF':'Magenta','800000':'Maroon','66CDAA':'MediumAquaMarine',
+						 '0000CD':'MediumBlue','BA55D3':'MediumOrchid','9370DB':'MediumPurple','3CB371':'MediumSeaGreen','7B68EE':'MediumSlateBlue',
+						 '00FA9A':'MediumSpringGreen','48D1CC':'MediumTurquoise','C71585':'MediumVioletRed','191970':'MidnightBlue','F5FFFA':'MintCream',
+						 'FFE4E1':'MistyRose','FFE4B5':'Moccasin','FFDEAD':'NavajoWhite','000080':'Navy'
+						 ,'FDF5E6':'OldLace','808000':'Olive','6B8E23':'OliveDrab','FFA500':'Orange','FF4500':'OrangeRed','DA70D6':'Orchid',
+						 'EEE8AA':'PaleGoldenRod','98FB98':'PaleGreen','AFEEEE':'PaleTurquoise','DB7093':'PaleVioletRed','FFEFD5':'PapayaWhip',
+						 'FFDAB9':'PeachPuff','CD853F':'Peru','FFC0CB':'Pink','DDA0DD':'Plum'
+						 ,'B0E0E6':'PowderBlue','800080':'Purple','FF0000':'Red','BC8F8F':'RosyBrown','4169E1':'RoyalBlue',
+						 '8B4513':'SaddleBrown','FA8072':'Salmon','F4A460':'SandyBrown','2E8B57':'SeaGreen','FFF5EE':'SeaShell','A0522D':'Sienna',
+						 'C0C0C0':'Silver','87CEEB':'SkyBlue','6A5ACD':'SlateBlue','708090':'SlateGray'
+						 ,'FFFAFA':'Snow','00FF7F':'SpringGreen','4682B4':'SteelBlue','D2B48C':'Tan','008080':'Teal','D8BFD8':'Thistle',
+						 'FF6347':'Tomato','40E0D0':'Turquoise','EE82EE':'Violet','F5DEB3':'Wheat','FFFFFF':'White','F5F5F5':'WhiteSmoke',
+						 'FFFF00':'Yellow','9ACD32':'YellowGreen','185871':'185871'};
+		
+	//creating an size array
+	var sizeArray = 	[	'8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29',
+							'30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50'];
+		
+	$( "#specfcatnDiv" ).html("<table id='specfcatnTabl'><tr><td colspan='3' style='text-align:center'>Specifications</td></tr><tr height='5px'></tr><tr><td>Width</td><td>:</td><td><input type='text' name='chldWdth' id='chldWdth' value='"+width+"'/></td></tr><tr height='5px'></tr><tr><td>Height</td><td>:</td><td><input type='text' name='chldHght' id='chldHght' value='"+height+"'/></td></tr><tr height='5px'></tr><tr><td>X-Cordinate</td><td>:</td><td><input type='text' name='childX' id='childX' value='"+insideX1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Y-Cordinate</td><td>:</td><td><input type='text' name='childY' id='childY' value='"+insideY1+"' readonly/></td></tr><tr height='5px'></tr><tr><td>Text</td><td>:</td><td style='text-align:center'><textarea name='chldTxt"+counter+"' id='chldTxt"+counter+"' onchange='changeText("+counter+")' ></textarea></td></tr><tr height='5px'></tr><tr><td>Color</td><td>:</td><td style=''><select name='chldTxtClr"+counter+"' id='chldTxtClr"+counter+"' style='width:120px' onchange='chngTextColor("+counter+")'></select></td></tr><tr height='5px'></tr><tr><td>Size</td><td>:</td><td style=''><select name='chldTxtSize"+counter+"' id='chldTxtSize"+counter+"' style='width:120px' onchange='chngTextSize("+counter+");'></select></td></tr><tr height='5px'></tr><tr><td>Style</td><td>:</td><td style=''><table><tr><td id='fontWeight"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;font-weight:bold;' onclick='changeFntWght("+counter+",1)'>B</td><td width='2px'></td><td id='fontStyle"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;font-style:Italic;color:#fff' onclick='changeFntStyle("+counter+",1)'>I</td><td width='2px'></td><td id='textDecor"+counter+"' class='unclicked' width='20px' style='border:1px solid #fff;background:#000;cursor:pointer;color:#fff;text-decoration:underline;' onclick='changeTxtDecor("+counter+",1)' >U</td><td width='2px'></td></tr><tr height='5px'></tr><tr><td>Delete Child</td<td>:</td><td><a href='javascript:void(0)' name='delChild' id='delChild' onclick='return delChild("+childType+","+counter+")'><img src='images/del.png' alt=''/></a></td></tr></table>");
+	var selectedColor = sessionStorage.getItem("#chldTxtClr"+counter);
+	var selectedSize = sessionStorage.getItem("#chldTxtSize"+counter);
+		
+		$.each(colorArray, function(val, text) {
+		
+			if(selectedColor == val){ 
+				$('#chldTxtClr'+counter).append( $('<option selected="selected"></option>').val(val).html(text) )
+			}
+			else{
+				$('#chldTxtClr'+counter).append( $('<option ></option>').val(val).html(text) )
+			}
+        });
+		
+		$.each(sizeArray, function(val, text) {
+		
+			if(selectedSize == text){ 
+				$('#chldTxtSize'+counter).append( $('<option selected="selected"></option>').val(val).html(text) )
+			}
+			else{
+				$('#chldTxtSize'+counter).append( $('<option ></option>').val(val).html(text) )
+			}
+        });
+		
 		//Displays the values changed for an element
 		showTextDetails(counter);
 	}
@@ -780,8 +742,11 @@ function changeText(cnt){
 
 function chngTextColor(cnt){
 	
-	var textColor = $("#chldTxtClr"+cnt).val();
-	$("#clonediv"+cnt).css('color',textColor);
+	var textColor = $('#chldTxtClr'+cnt+' option:selected').val();
+	$("#clonediv"+cnt).css('color','#'+textColor);
+	/*var textColor = $("#chldTxtClr"+cnt).val();
+	$("#clonediv"+cnt).css('color',textColor);*/
+	
 	// Saving textbox text color for a particular child
 	sessionStorage.setItem("#chldTxtClr"+cnt, textColor);
 	
@@ -790,7 +755,7 @@ function chngTextColor(cnt){
 
 function chngTextSize(cnt){
 	
-	var textSize = $("#chldTxtSize"+cnt).val();
+	var textSize = $('#chldTxtSize'+cnt+' option:selected').text();
 	$("#clonediv"+cnt).css('font-size',textSize+'px');
 	// Saving textbox text size for a particular child
 	sessionStorage.setItem("#chldTxtSize"+cnt, textSize);
@@ -872,33 +837,29 @@ function showTextDetails(cnt){
 	
 	
 	var textContent = $("#clonediv"+cnt).text();
-	var textColor = $("#clonediv"+cnt).css('color');
-	var textSize = $("#clonediv"+cnt).css('font-size');
+	var textColor = sessionStorage.getItem("#chldTxtClr"+cnt);
+	//var textSize = $("#clonediv"+cnt).css('font-size');
+	var fontSize = sessionStorage.getItem("#chldTxtSize"+cnt);
 	var weightVal = $("#clonediv"+cnt).css('font-size');
 	var italicVal = $("#clonediv"+cnt).css('font-size');
 	var decorVal = $("#clonediv"+cnt).css('font-size');
 	
-	size = textSize.slice(0,-2);
+	//size = textSize.slice(0,-2);
 	//alert(size);
 	
 	if(textContent !=''){
 		$("#chldTxt"+cnt).text(textContent);
 	}	
 	if(textColor !=''){
-		$("#chldTxtClr"+cnt).val(textColor);
+		$("#chldTxtClr"+cnt).css('color',textColor);
 	}	
-	if(textSize !=''){
-		$("#chldTxtSize"+cnt).val(size);
+	if(fontSize !=''){
+		$("#chldTxtSize"+cnt).css('font-size',fontSize);
 	}
 	if(weightVal !=''){
 		$("#fontWeight"+cnt).val(weightVal);
 	}
-	/*if(italicVal !=''){
-		$("#chldTxtSize"+cnt).val(italicVal);
-	}
-	if(decorVal !=''){
-		$("#chldTxtSize"+cnt).val(decorVal);
-	}*/
+	
 }
 /*-----------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -912,10 +873,10 @@ function chngRefText(cnt){
 	var refText = document.getElementById('childRefText'+num+'-'+cnt).value;
 	$('#childRefLink'+num+'-'+cnt).val(refText);
 	
-	// Saving textbox text size for a particular child
+	// Saving ref text size for a particular child
 	sessionStorage.setItem("childRefLink"+num+'-'+cnt, refText);
 	
-	sessionStorage.setItem("childRefCnt"+cnt, num);
+	sessionStorage.setItem("childRefCnt"+cnt, "childRefCnt"+cnt);
 }
 
 
@@ -956,6 +917,8 @@ function addRef(cnt)
 			
 			var refBtn = document.getElementById('clonediv'+cnt);
 			refBtn.appendChild(hiddenRefText);
+			
+			sessionStorage.setItem("refNo"+cnt, num);
 			
 		}
 		else{
@@ -1043,6 +1006,8 @@ function slideSaveCall()
 	var pBgImgName	= 	sessionStorage.getItem("pBgImgName");
 	var parentX		= 	sessionStorage.getItem("parentX");
 	var parentY		= 	sessionStorage.getItem("parentY");
+	
+	
 		
 	wrappedParntArr	=	{'parntName':parentName,'parntWdth':parentWdth,'parntHght':parentHght,'parntBgImg':pBgImgName,'parentX':parentX,'parentY':parentY}
 	mainArr.push(wrappedParntArr);
@@ -1096,33 +1061,30 @@ function slideSaveCall()
 		//-----------------------------------------  References Child --------------------------------------------------------------------------//
 		if(childType == 4)
 		{
-			/*var refarr = $('#clonediv'+counter).children('.refTextClass').each(function(){$(this).attr('id');});
-			var refLen = refarr.length;
+			var refLen = sessionStorage.getItem("refNo"+counter);
 			var ref = [];
-			for(var i =1 ;i<=refLen; i++){
-				ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
-			}*/
-			var ref = [];
-			var childRefCnt = sessionStorage.getItem("childRefCnt"+counter);
-			for(var i =1 ;i<=childRefCnt; i++){
-				ref.push(sessionStorage.getItem("childRefLink"+i+'-'+counter));
-			}
 			
+			for(var no =1 ;no<=refLen; no++){
+				var refLinkText = sessionStorage.getItem("childRefLink"+no+'-'+counter);
+				if(refLinkText == ''){
+					refLinkText = 'null';
+				}
+				ref.push(refLinkText);
+				
+			}
 			wrappedChildArr = {'childType':childType,'name':childName,'width':childWidth,'height':childHeight,'xaxis':childXcoord,'yaxis':childYcoord,'chldImgName':ChldVdoName,'references':ref};
 		}
-		
 		mainArr.push(wrappedChildArr);
 	}
 	
-	
-	
-   var dataStrng = JSON.stringify(mainArr);
-   $.ajax({
+	var dataStrng = JSON.stringify(mainArr);
+	//alert(dataStrng);
+	$.ajax({
 		type: "POST",
 		url: "Ajax/saveSlideProcess.php",
 		cache: false,
 		data:{data : dataStrng},
-		success: function(data) { alert(data)
+		success: function(data) { //alert(data)
 			setTimeout("window.location='add_slide.php?id="+btoa(data)+"'",300);
 		}
 	});
